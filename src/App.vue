@@ -1,30 +1,54 @@
 <template>
   <main>
-    <button class="create-note-btn" @click="showForm">
-      <i class="material-icons">add_circle</i>
-    </button>
+    <nav>
+      <div>
+        <img src="@/assets/notes.png" alt="Notes icon">
+        <b>Notes</b>
+      </div>
 
-    <user-note
-      v-for="(userNote, index) in userNotes"
-      :key="index"
-      :id="index"
-      :title="userNote.title"
-      :note="userNote.note"
-      :image="userNote.image"
-      @edit-note="editUserNote">
-    </user-note>
+      <div>
+        <button class="create-note-btn" @click="showForm">
+          <svg viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><path d="M480,224H288V32c0-17.673-14.327-32-32-32s-32,14.327-32,32v192H32c-17.673,0-32,14.327-32,32s14.327,32,32,32h192v192   c0,17.673,14.327,32,32,32s32-14.327,32-32V288h192c17.673,0,32-14.327,32-32S497.673,224,480,224z"/></g></svg>
+          New note
+        </button>
+
+        <button class="search-note">
+          <svg viewBox="0 0 513.749 513.749" style="enable-background:new 0 0 513.749 513.749;" xml:space="preserve"><g><path d="M504.352,459.061l-99.435-99.477c74.402-99.427,54.115-240.344-45.312-314.746S119.261-9.277,44.859,90.15   S-9.256,330.494,90.171,404.896c79.868,59.766,189.565,59.766,269.434,0l99.477,99.477c12.501,12.501,32.769,12.501,45.269,0   c12.501-12.501,12.501-32.769,0-45.269L504.352,459.061z M225.717,385.696c-88.366,0-160-71.634-160-160s71.634-160,160-160   s160,71.634,160,160C385.623,314.022,314.044,385.602,225.717,385.696z"/></g></svg>
+        </button>
+      </div>
+    </nav>
+
+    <div v-if="notesUnavailable" class="notes-unavailable">
+      <img src="@/assets/empty.svg" alt="No notes found">
+      <h2>No notes found</h2>
+    </div>
+    
+    <div class="notes">
+      <user-note
+        v-for="userNote in userNotes"
+        :key="userNote.id"
+        :id="userNote.id"
+        :title="userNote.title"
+        :note="userNote.note"
+        :images="userNote.images"
+        @edit-note="editUserNote">
+      </user-note>
+    </div>
+
+    <div :class="isFormVisible ? ['overlay'] : []" @click="isFormVisible = false"></div>
 
     <create-note
       @hide-form="hideForm"
       @note-created="createNewNote"
       @note-updated="updateCurrentNote"
       @delete-note="deleteUserNote"
+      @delete-image="deleteSingleImage"
       :formVisibility="isFormVisible"
       :creatingNewNote="isNewNote"
       :id="noteId"
       :existingTitle="noteTitle"
       :existingNote="noteContent"
-      :existingImage="noteImage">
+      :existingImages="noteImages">
     </create-note>
   </main>
 </template>
@@ -45,10 +69,10 @@ export default {
       userNotes: [],
       isFormVisible: false,
       isNewNote: false,
-      noteId: null,
+      noteId: "",
       noteTitle: "",
       noteContent: "",
-      noteImage: ""
+      noteImages: []
     };
   },
 
@@ -62,10 +86,15 @@ export default {
       this.isFormVisible = false;
     },
 
-    createNewNote(title, note, image) {
+    createNewNote(title, note, images) {
       if (this.isNewNote) {
-        if (title.trim() !== "" || note.trim() !== "" || image.trim() !== "") {
-          this.userNotes.push({title: title, note: note, image: image});
+        if (title.trim() !== "" || note.trim() !== "" || images.length > 0) {
+          this.userNotes.unshift({
+            id: new Date().toISOString(),
+            title: title,
+            note: note,
+            images: [...images]
+          });
           this.isFormVisible = false;
         } else {
           this.isFormVisible = false;
@@ -73,26 +102,45 @@ export default {
       }
     },
 
-    editUserNote(index) {
+    findNote(id) {
+      let noteFound = this.userNotes.find((note) => note.id === id);
+      return noteFound;
+    },
+
+    editUserNote(id) {
       this.isNewNote = false;
-      this.noteId = index;
-      this.noteTitle = this.userNotes[index].title;
-      this.noteContent = this.userNotes[index].note;
-      this.noteImage = this.userNotes[index].image;
+      this.noteId = id;
+      this.noteTitle = this.findNote(id).title;
+      this.noteContent = this.findNote(id).note;
+      this.noteImages = this.findNote(id).images;
       this.isFormVisible = true;
     },
 
-    deleteUserNote(index) {
-      this.userNotes.splice(index, 1);
+    deleteUserNote(id) {
+      this.userNotes = this.userNotes.filter((note) => note.id !== id);
       this.isFormVisible = false;
     },
 
-    updateCurrentNote(updatedTitle, updatedNote, updatedImage, index) {
-      let noteFound = this.userNotes.find(note => this.userNotes.indexOf(note) === index);
-      Object.assign(noteFound, {title: updatedTitle, note: updatedNote, image: updatedImage});
+    deleteSingleImage(id, index) {
+      this.findNote(id).images.splice(index, 1);
+    },
+
+    updateCurrentNote(id, updatedTitle, updatedNote, updatedImages) {
+      let noteToUpdate = this.findNote(id);
+      Object.assign(noteToUpdate, {title: updatedTitle, note: updatedNote, images: updatedImages});
       this.isFormVisible = false;
-    }
+    },
   },
+
+  computed: {
+    notesUnavailable() {
+      if(this.userNotes.length <= 0 && !this.isFormVisible) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 };
 </script>
 
@@ -100,42 +148,118 @@ export default {
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
   font-size: 62.5%;
+  --lighter: #dfe4ec;
+  --light: #a6b5c9;
+  --dark: #131820;
+  --darker-1: #0f141a;
+  --darker-2: #0b0f13;
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--dark);
+  color: #fff;
 }
 
-main {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-items: self-start;
+button {
+  cursor: pointer;
+  line-height: 0;
+}
+
+nav {
+  width: 100vw;
+  justify-content: space-between;
+  padding: 3rem;
+
+  svg {
+    height: 1.2rem;
+  }
+}
+
+nav div {
+  &:first-of-type {
+    gap: 0.8rem;
+  }
+
+  &:last-of-type {
+    gap: 1rem;
+  }
+
+  img {
+    height: 3rem;
+  }
+
+  b {
+    font-size: 2rem;
+    font-weight: 400;
+  }
+}
+
+nav, nav div,
+.create-note-btn, 
+.search-note {
+  display: flex;
   align-items: center;
-  padding: 2rem;
 }
 
 .create-note-btn {
-    background-color: #000;
-    padding: 5.2rem 3.2rem;
-    line-height: 0;
-    color: #fff;
+  gap: 0.5rem;
+  padding: 0 2rem;
+}
+
+.search-note {
+  width: 3.5rem;
+}
+
+.create-note-btn, .search-note {
     border: none;
+    color: #131820;
+    background-color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    height: 3.5rem;
     border-radius: 0.5rem;
     cursor: pointer;
-    border: 1px solid #000;
+    justify-content: center;
 }
 
-.create-note-btn:hover {
-    filter: invert(1);
-    border-color: #fff;
+.notes-unavailable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  img {
+    height: 35rem;
+  }
+
+  h2 {
+    font-size: 2.4rem;
+    font-weight: 300;
+  }
 }
 
-.create-note-btn i {
-    font-size: 6.2rem;
+.notes {
+  padding: 5rem 10rem;
+  columns: 4;
+  column-gap: 2rem;
+  row-gap: 2rem;
+}
+
+.overlay {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 </style>
