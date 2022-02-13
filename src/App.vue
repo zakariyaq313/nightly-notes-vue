@@ -31,24 +31,25 @@
         :title="userNote.title"
         :note="userNote.note"
         :images="userNote.images"
+        :theme="userNote.theme"
         @edit-note="editUserNote">
       </user-note>
     </div>
 
-    <div :class="isFormVisible ? ['overlay'] : []" @click="isFormVisible = false"></div>
+    <div :class="isFormVisible ? ['overlay'] : []"></div>
 
     <create-note
       @hide-form="hideForm"
       @note-created="createNewNote"
       @note-updated="updateCurrentNote"
       @delete-note="deleteUserNote"
-      @delete-image="deleteSingleImage"
       :formVisibility="isFormVisible"
       :creatingNewNote="isNewNote"
       :id="noteId"
       :existingTitle="noteTitle"
       :existingNote="noteContent"
-      :existingImages="noteImages">
+      :existingImages="noteImages"
+      :existingTheme="noteTheme">
     </create-note>
   </main>
 </template>
@@ -72,7 +73,8 @@ export default {
       noteId: "",
       noteTitle: "",
       noteContent: "",
-      noteImages: []
+      noteImages: [],
+      noteTheme: ""
     };
   },
 
@@ -82,18 +84,22 @@ export default {
       this.isNewNote = true;
     },
 
-    hideForm() {
+    hideForm(id, noteHasContent) {
       this.isFormVisible = false;
+      if (!noteHasContent) {
+        this.deleteUserNote(id);
+      }
     },
 
-    createNewNote(title, note, images) {
+    createNewNote(title, note, images, theme) {
       if (this.isNewNote) {
         if (title.trim() !== "" || note.trim() !== "" || images.length > 0) {
           this.userNotes.unshift({
             id: new Date().toISOString(),
             title: title,
             note: note,
-            images: [...images]
+            images: [...images],
+            theme: theme
           });
           this.isFormVisible = false;
         } else {
@@ -113,6 +119,7 @@ export default {
       this.noteTitle = this.findNote(id).title;
       this.noteContent = this.findNote(id).note;
       this.noteImages = this.findNote(id).images;
+      this.noteTheme = this.findNote(id).theme;
       this.isFormVisible = true;
     },
 
@@ -121,20 +128,21 @@ export default {
       this.isFormVisible = false;
     },
 
-    deleteSingleImage(id, index) {
-      this.findNote(id).images.splice(index, 1);
-    },
-
-    updateCurrentNote(id, updatedTitle, updatedNote, updatedImages) {
+    updateCurrentNote(id, updatedTitle, updatedNote, updatedImages, updatedTheme) {
       let noteToUpdate = this.findNote(id);
-      Object.assign(noteToUpdate, {title: updatedTitle, note: updatedNote, images: updatedImages});
+      Object.assign(noteToUpdate, {
+        title: updatedTitle, 
+        note: updatedNote, 
+        images: updatedImages, 
+        theme: updatedTheme
+      });
       this.isFormVisible = false;
     },
   },
 
   computed: {
     notesUnavailable() {
-      if(this.userNotes.length <= 0 && !this.isFormVisible) {
+      if(this.userNotes.length <= 0 && !this.isFormVisible ) {
         return true;
       } else {
         return false;
@@ -159,6 +167,15 @@ html {
   --dark: #131820;
   --darker-1: #0f141a;
   --darker-2: #0b0f13;
+  --red: #F94144;
+  --pink: #EF476F;
+  --blue: #118AB2;
+  --purple: #8338EC;
+  --brown: #B56576;
+  --green: #00a896;
+  --orange: #f2542d;
+  --yellow: #ff9f1c;
+  --gray: #8a817c;
 }
 
 body {
@@ -166,6 +183,49 @@ body {
   background-color: var(--dark);
   color: #fff;
 }
+
+// Theme colours
+.default {
+  background-color: var(--dark);
+}
+
+.red {
+  background-color: var(--red);
+}
+
+.pink {
+  background-color: var(--pink);
+}
+
+.purple {
+  background-color: var(--purple);
+}
+
+.blue {
+  background-color: var(--blue);
+}
+
+.green {
+  background-color: var(--green);
+}
+
+.yellow {
+  background-color: var(--yellow);
+}
+
+.orange {
+  background-color: var(--orange);
+}
+
+.brown {
+  background-color: var(--brown);
+}
+
+.gray {
+  background-color: var(--gray);
+}
+
+// theme colours end
 
 button {
   cursor: pointer;
