@@ -2,7 +2,7 @@
 
 Notes app made with VueJS/SCSS
 
-<a href="https://zakariyaq313.github.io/notes-app/"><img src="@/assets/version-6.png"></a>
+<a href="https://zakariyaq313.github.io/notes-app/"><img src="./src/assets/version-5.png"></a>
 
 
 # **Progression**
