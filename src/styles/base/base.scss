@@ -1,0 +1,89 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scrollbar-color: #7a7a7a #343434;
+
+    &::-webkit-scrollbar {
+        width: 1.2rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #343434;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #7a7a7a;
+        border: 3px solid #343434;
+        border-radius: 1rem;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 62.5%;
+    --lighter: #dfe4ec;
+    --light: #a6b5c9;
+    --dark: #131820;
+    --darker-1: #0f141a;
+    --darker-2: #0b0f13;
+    --red: #F94144;
+    --pink: #EF476F;
+    --blue: #118AB2;
+    --purple: #8338EC;
+    --brown: #B56576;
+    --green: #00a896;
+    --orange: #f2542d;
+    --yellow: #ff9f1c;
+    --gray: #8a817c;
+
+    @include respond(1000px) {
+        font-size: 55%;
+    }
+
+    @include respond(500px) {
+        font-size: 50%;
+    }
+
+    @include respond(320px) {
+        font-size: 45%;
+    }
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #000;
+    color: #fff;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+main {
+    position: relative;
+    min-height: 100vh;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    line-height: 0;
+}
+
+a:link,
+a:visited {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    background-image: linear-gradient(to right, #fff, #fff);
+    background-size: 0 0;
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+    line-height: 2;
+    padding: 1px;
+    text-decoration: none;
+    transition: all .4s;
+}
+
+a:hover {
+    color: var(--dark);
+    background-size: 100% 100%;
+}

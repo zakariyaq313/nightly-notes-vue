@@ -1,24 +1,28 @@
-# notes-app
+# **Notes Mini**
 
-## Project setup
-```
-npm install
-```
+Notes app made with VueJS/SCSS
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+<a href="https://zakariyaq313.github.io/notes-app/"><img src="@/assets/version-6.png"></a>
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+# **Progression**
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Version 1 -
+
+![Version 1](@/assets/version-1.png)
+
+Version 2 -
+
+![Version 2](@/assets/version-2.png)
+
+Version 3 -
+
+![Version 3](@/assets/version-3.png)
+
+Version 4 -
+
+![Version 4](@/assets/version-4.png)
+
+Version 5 -
+
+![Version 5](@/assets/version-5.png)
