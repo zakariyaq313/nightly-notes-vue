@@ -1,6 +1,6 @@
 # **Notes Mini**
 
-Notes app made with VueJS/SCSS
+Notes app made with Vue + SCSS (no additional libraries used)
 
 <a href="https://zakariyaq313.github.io/notes-app/"><img src="./src/assets/screen.png"></a>
 
