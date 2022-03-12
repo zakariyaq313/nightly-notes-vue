@@ -133,14 +133,6 @@
 
     img {
         height: 36rem;
-
-        @include respond(500px) {
-            height: 32rem;
-        }
-
-        @include respond(350px) {
-            height: 28rem;
-        }
     }
 
     h2 {
@@ -152,6 +144,20 @@
 
         .emoji {
             height: 3rem;
+        }
+    }
+
+    .desktop-home {
+        @include respond(600px) {
+            display: none;
+        }
+    }
+
+    .mobile-home {
+        display: none;
+
+        @include respond(600px) {
+            display: flex;
         }
     }
 }
