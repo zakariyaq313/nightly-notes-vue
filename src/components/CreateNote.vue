@@ -198,7 +198,7 @@ export default {
         },
       ],
       themeColours: ["dark", "pink", "orange", "green", "purple", "brown", "gray"],
-      themeGradients: ["greenery", "sublimeVivid", "dimigo", "reef", "lightPurple", "witchingHour", "redSunset"],
+      themeGradients: ["greenery", "sublime-vivid", "dimigo", "reef", "light-purple", "witching-hour", "titanium"],
     }
   },
 

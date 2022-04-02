@@ -1,7 +1,7 @@
 .navbar {
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    padding: 3rem;
+    padding: 4rem 3rem 3rem;
 
     @include respond(500px) {
         align-items: flex-start;
@@ -10,6 +10,10 @@
 
     @include respond(400px) {
         padding: 3rem 1rem 3rem 1.6rem;
+    }
+
+    .page-label > * {
+        position: absolute;
     }
 
     .logo {
@@ -39,17 +43,21 @@
 }
 
 .create-note-btn, .empty-trash {
-    @include respond(500px) {
-        margin-top: 1.5rem;
-    }
+    margin-top: 1.4rem;
 }
 
 .create-note-btn svg {
     height: 1.2rem;
 }
 
-.empty-trash svg {
-    height: 1.8rem;
+.empty-trash {
+    span {
+        width: 14rem;
+    }
+
+    svg {
+        height: 1.8rem;
+    }
 }
 
 .navigation-buttons {
@@ -59,6 +67,11 @@
     left: 3rem;
     top: 50%;
     transform: translateY(-50%);
+
+    @include respond(h600px) {
+        position: absolute;
+        top: 30rem;
+    }
 
     @include respond(1000px) {
         left: 2rem;
@@ -123,6 +136,10 @@
     width: 100%;
     z-index: -1;
 
+    @include respond(h600px) {
+        position: absolute;
+    }
+
     @include respond(500px) {
         padding-left: 5%;
     }
@@ -136,14 +153,14 @@
     }
 
     h2 {
-        font-size: 2.4rem;
+        font-size: 2rem;
         font-weight: 300;
         display: flex;
         align-items: center;
         column-gap: 1rem;
 
         .emoji {
-            height: 3rem;
+            height: 2.8rem;
         }
     }
 
@@ -235,7 +252,7 @@
         border: 1px solid #fff;
         flex-direction: column;
         align-items: flex-end;
-        gap: 3rem;
+        row-gap: 3rem;
         padding: 3rem;
         margin: auto;
         position: relative;
@@ -256,6 +273,10 @@
 
                 &:first-of-type {
                     margin-right: 1rem;
+                }
+
+                &:hover {
+                    color: #000;
                 }
             }
         }

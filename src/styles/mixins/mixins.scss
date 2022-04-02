@@ -52,4 +52,10 @@
             @content
         };
     }
+
+    @if $breakpoint == h600px {
+        @media(max-height: 600px){
+            @content
+        };
+    }
 }

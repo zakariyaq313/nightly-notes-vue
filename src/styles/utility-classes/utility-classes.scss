@@ -52,10 +52,6 @@
     background-color: #000;
 }
 
-.red {
-    background-color: var(--red);
-}
-
 .pink {
     background-color: var(--pink);
 }
@@ -64,16 +60,8 @@
     background-color: var(--purple);
 }
 
-.blue {
-    background-color: var(--blue);
-}
-
 .green {
     background-color: var(--green);
-}
-
-.yellow {
-    background-color: var(--yellow);
 }
 
 .orange {
@@ -89,57 +77,55 @@
 }
 
 // Theme gradients
-.lightPurple {
-    background: #4568DC;
-    background: linear-gradient(to right, #B06AB3, #4568DC);
+.light-purple {
+    background-color: #4568DC;
+    background-image: linear-gradient(to right, #B06AB3, #4568DC);
 }
 
-.witchingHour {
-    background: #c31432;
-    background: linear-gradient(to bottom right, #240b36, #c31432);
+.witching-hour {
+    background-color: #c31432;
+    background-image: linear-gradient(to bottom right, #240b36, #c31432);
 }
 
 .reef {
-    background: #00d2ff;
-    background: linear-gradient(to bottom right, #3a7bd5, #00d2ff);
+    background-color: #00d2ff;
+    background-image: linear-gradient(to bottom right, #2F80ED, #56CCF2);
 }
 
 .dimigo {
-    background: #ff0f7b;
-    background: linear-gradient(to bottom right, #ff0f7b 0%, #f89c2a 100%);
+    background-color: #ff0f7b;
+    background-image: linear-gradient(to bottom right, #ff0f7b 0%, #f89c2a 100%);
 }
 
-.redSunset {
-    background: #355C7D;
-    background: linear-gradient(to bottom right, #C06C84, #6C5B7B, #355C7D);
-}
-
-.sublimeVivid {
-    background: #FC466B;
-    background: linear-gradient(to bottom right, #3F5EFB, #FC466B);
+.sublime-vivid {
+    background-color: #FC466B;
+    background-image: linear-gradient(to bottom right, #3F5EFB, #FC466B);
 }
 
 .greenery {
-    background: #00b09b;
-    background: linear-gradient(to bottom right, #96c93d, #00b09b);
+    background-color: #00b09b;
+    background-image: linear-gradient(to bottom right, #96c93d, #00b09b);
 }
 
-.red,
+.titanium {
+    background-color: #283048;
+    background-image: linear-gradient(to bottom right, #859398, #283048);
+}
+
 .pink,
 .purple,
 .blue,
 .green,
-.yellow,
 .orange,
 .brown,
 .gray,
-.lightPurple,
-.witchingHour,
+.light-purple,
+.witching-hour,
 .reef,
 .dimigo,
-.redSunset,
-.sublimeVivid,
-.greenery {
+.sublime-vivid,
+.greenery,
+.titanium {
     border: none !important;
 }
 

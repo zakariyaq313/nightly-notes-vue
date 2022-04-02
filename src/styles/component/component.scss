@@ -45,7 +45,7 @@
     &:hover,
     &:active {
         span:nth-of-type(1) {
-            background-color: #fff;
+            background-size: 100% 100%;
             color: #000;
     
             svg {
@@ -54,7 +54,7 @@
         }
     }
 
-    &:active, &:focus {
+    &:active {
         span:nth-of-type(1) {
             transform: translate(1.2rem, 1.2rem);
         }
@@ -66,7 +66,32 @@
 
     &:disabled {
         opacity: 0.4;
-        pointer-events: none;
+        
+        span {
+            cursor: not-allowed;
+        }
+
+        &:hover,
+        &:active {
+            span:nth-of-type(1) {
+                background-size: 0 100%;
+                color: #fff;
+    
+                svg {
+                    fill: #fff;
+                }
+            }
+        }
+
+        &:active {
+            span:nth-of-type(1) {
+                transform: translate(0, 0);
+            }
+
+            span:nth-of-type(2) {
+                transform: translate(0, 0);
+            }
+        }
     }
 }
 
@@ -129,4 +154,17 @@ form,
 .blur-visible {
     opacity: 1;
     z-index: 50;
+}
+
+.rising-background {
+    background-image: linear-gradient(to right, #fff, #fff);
+    background-size: 0 0;
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+    backface-visibility: hidden;
+    transition: all 0.4s;
+
+    &:hover {
+        background-size: 100% 100%;
+    }
 }

@@ -8,6 +8,11 @@ form {
     transform: translate(-50%, -50%) scale(0.8);
     transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
 
+    @include respond(h600px) {
+        position: absolute;
+        top: 30rem;
+    }
+
     &::-webkit-scrollbar {
         width: 6px;
         height: 0;
