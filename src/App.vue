@@ -1,14 +1,15 @@
 <template>
-  <home></home>
+  <main>
+    <navigation></navigation>
+    <router-view></router-view>
+  </main>
 </template>
 
 <script>
-import Home from "./components/Home.vue"
+import Navigation from "./components/Navigation.vue";
 
 export default {
-  name: "App",
-  components: {
-    "home": Home
-  }
+  components: { Navigation },
+  name: "App"
 }
 </script>

@@ -1,7 +1,9 @@
 @import "./mixins/mixins.scss";
 @import "./base/base.scss";
 @import "./utility-classes/utility-classes.scss";
-@import "./component/component.scss";
-@import "./home/home.scss";
+@import "./components/components.scss";
+@import "./navigation/navigation.scss";
+@import "./base-component/base-component.scss";
+@import "./trash/trash.scss";
 @import "./create-note/create-note.scss";
 @import "./note/note.scss";
