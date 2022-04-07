@@ -16,10 +16,6 @@
         left: 2rem;
     }
 
-    @include respond(500px) {
-        left: 2rem;
-    }
-
     @include respond(400px) {
         left: 1rem;
     }

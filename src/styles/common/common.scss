@@ -167,4 +167,8 @@ form,
     &:hover {
         background-size: 100% 100%;
     }
+
+    @include respond(1000px) {
+        transition: none;
+    }
 }

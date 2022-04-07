@@ -347,24 +347,6 @@ export default {
         this.$store.commit("currentNote", note);
       }
     }
-  },
-
-  mounted() {
-    this.$watch(
-      () => [this.$store.state.noteTitle, this.$store.state.noteText, this.$store.state.noteImages],
-      (currentValue) => {
-        if (currentValue[0].trim() !== "" ||
-            currentValue[1].trim() !== "" ||
-            currentValue[2].length > 0) {
-          this.$store.commit("noteEmpty", false);
-        } else {
-          this.$store.commit("noteEmpty", true);
-        }
-      },
-      {
-        deep: true
-      }
-    )
   }
 }
 </script>

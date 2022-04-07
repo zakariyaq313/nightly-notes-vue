@@ -9,27 +9,16 @@
 }
 
 .delete-confirm {
+    background-color: rgba($color: #000000, $alpha: 0.75);
     display: flex;
     position: fixed;
     top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
+    height: 100vh;
+    width: 100vw;
     opacity: 0;
     z-index: -1;
-    transition: all .2s ease-in-out;
-
-    &::before {
-        content: "";
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        background-color: #000;
-        opacity: 0.75;
-        z-index: 10;
-    }
+    transition: all 0.2s ease-in-out;
 
     .confirmation-dialog {
         display: flex;
@@ -42,6 +31,7 @@
         margin: auto;
         position: relative;
         z-index: 20;
+        transition: all 0.2s ease-in-out;
 
         strong {
             font-size: 1.8rem;
