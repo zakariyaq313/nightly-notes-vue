@@ -25,7 +25,7 @@
     </template>
 
     <template v-slot:confirm-deletion>
-      <div :class="['delete-confirm', deleteConfirmVisible]">
+      <div @click.self="cancelDelete" :class="['delete-confirm', deleteConfirmVisible]">
         <div class="confirmation-dialog">
           <strong>{{ deletionWarningText }}</strong>
           <div class="delete-confirm-buttons">
