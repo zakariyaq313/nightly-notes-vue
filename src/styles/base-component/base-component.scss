@@ -74,7 +74,7 @@
     }
 
     h2 {
-        font-size: 2rem;
+        font-size: 2.2rem;
         font-weight: 300;
         display: flex;
         flex-direction: column;
@@ -153,5 +153,9 @@ footer {
     position: absolute;
     bottom: 2rem;
     right: 2rem;
-    font-family: 'Poppins', sans-serif;
+
+    p {
+        font-family: 'Glacial Indifference', sans-serif;
+        font-size: 1.2rem;
+    }
 }

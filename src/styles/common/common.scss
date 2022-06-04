@@ -9,11 +9,11 @@
         position: absolute;
         width: 12rem;
         height: 4rem;
-        transition: all 0.4s;
+        transition: all 0.2s;
     }
 
     span:nth-of-type(1) {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         font-weight: 600;
         cursor: pointer;
         display: flex;
@@ -26,7 +26,7 @@
 
         svg {
             fill: #fff;
-            transition: all 0.4s;
+            transition: all 0.2s;
         }
     }
 
@@ -42,17 +42,29 @@
         z-index: 1;
     }
 
-    &:hover,
-    &:active {
-        span:nth-of-type(1) {
-            background-size: 100% 100%;
-            color: #000;
-    
-            svg {
-                fill: #000;
-            }
-        }
-    }
+    @media (hover: hover) {
+		&:hover {
+			span:nth-of-type(1) {
+				background-color: #fff;
+				color: #000;
+		
+				svg {
+					fill: #000;
+				}
+			}
+		}
+	}
+
+	&:active {
+		span:nth-of-type(1) {
+			background-color: #fff;
+			color: #000;
+		
+			svg {
+				fill: #000;
+			}
+		}
+	}
 
     &:active {
         span:nth-of-type(1) {
@@ -74,13 +86,13 @@
         &:hover,
         &:active {
             span:nth-of-type(1) {
-                background-size: 0 100%;
-                color: #fff;
-    
-                svg {
-                    fill: #fff;
-                }
-            }
+				background-color: #000;
+				color: #fff;
+		
+				svg {
+					fill: #fff;
+				}
+			}
         }
 
         &:active {

@@ -42,6 +42,14 @@
         svg {
             fill: #fff;
             height: 3rem;
+
+            &.heart-outline {
+				transform: scale(1.1);
+			}
+
+			&.trash-can {
+				transform: scale(0.9);
+			}
         }
     }
 }
