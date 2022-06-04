@@ -62,8 +62,8 @@
 			<p>
 				Created by
 				<a class="rising-background"
-					href="https://zakariyaq313.github.io/my_website/"
-					target="_blank" rel="noopener">
+					href="https://zakariyaq313.github.io/my-website/"
+					target="_blank" rel="noopener noreferrer">
 					Muhammad Zakariya
 				</a>
 			</p>
