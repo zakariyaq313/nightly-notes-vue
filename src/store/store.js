@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import { filterNotes, findNote } from "./helperFunctions";
 
 export const store = createStore({
 	strict: true,
@@ -9,7 +10,7 @@ export const store = createStore({
 			trashedNotes: [],
 			isNoteEmpty: true,
 			isNoteNew: true,
-			isFormVisible: false,
+			isNoteDialogVisible: false,
 			noteId: "",
 			noteTitle: "",
 			noteText: "",
@@ -21,8 +22,8 @@ export const store = createStore({
 	},
 
 	mutations: {
-		formVisibility(state, payload) {
-			state.isFormVisible = payload;
+		noteDialogVisibility(state, payload) {
+			state.isNoteDialogVisible = payload;
 		},
 		
 		currentTitle(state, payload) {
@@ -38,21 +39,20 @@ export const store = createStore({
 		},
 
 		createOrTrash(state, payload) {
-			const collection = [];
-			collection.push({
+			const newNote = {
 				id: new Date().toISOString(),
-				title: state.noteTitle,
+				title: state.noteTitle.trim(),
 				text: state.noteText,
 				images: state.noteImages,
 				theme: state.noteTheme,
 				font: state.noteFont,
 				favourite: state.noteIsFavourite
-			})
+			}
 
 			if (payload === "create") {
-				state.userNotes = [...collection, ...state.userNotes];
+				state.userNotes.unshift(newNote);
 			} else if(payload === "trash"){
-				state.trashedNotes = [...collection, ...state.trashedNotes];
+				state.trashedNotes.unshift(newNote);
 			}
 		},
 
@@ -69,7 +69,7 @@ export const store = createStore({
 		updateNote(state, payload) {
 			const noteFound = payload;
 			Object.assign(noteFound, {
-				title: state.noteTitle,
+				title: state.noteTitle.trim(),
 				text: state.noteText,
 				images: state.noteImages,
 				theme: state.noteTheme,
@@ -90,24 +90,24 @@ export const store = createStore({
 
 		trashNote(state, payload) {
 			state.trashedNotes.unshift(payload);
-			state.favouriteNotes = state.favouriteNotes.filter(note => note.id !== payload.id);
-			state.userNotes = state.userNotes.filter(note => note.id !== payload.id);
+			state.favouriteNotes = filterNotes(state.favouriteNotes, payload.id);
+			state.userNotes = filterNotes(state.userNotes, payload.id);
 		},
 
 		removeEmptyNote(state) {
-			state.userNotes = state.userNotes.filter(note => note.id !== state.noteId);
+			state.userNotes = filterNotes(state.userNotes, state.noteId);
 		},
 
 		restoreNote(state) {
-			const noteFound = state.trashedNotes.find(note => note.id === state.noteId);
+			const noteFound = findNote(state.trashedNotes, state.noteId);
 			state.userNotes.unshift(noteFound);
-			state.trashedNotes = state.trashedNotes.filter(note => note.id !== noteFound.id);
+			state.trashedNotes = filterNotes(state.trashedNotes, noteFound.id);
 		},
 
 		deleteNotes(state, payload) {
-			if (payload === "delete-one") {
-				state.trashedNotes = state.trashedNotes.filter(note => note.id !== state.noteId);
-			} else if (payload === "delete-all") {
+			if (payload === "one") {
+				state.trashedNotes = filterNotes(state.trashedNotes, state.noteId);
+			} else if (payload === "all") {
 				state.trashedNotes = [];
 			}
 		},
@@ -141,45 +141,39 @@ export const store = createStore({
 		},
 	},
 
-	getters: {
-		findNote(state) {
-			return state.userNotes.find((note) => note.id === state.noteId);
-		}
-	},
-
 	actions: {
 		fillNoteContent({commit}, payload) {
 			commit("editingNote", payload);
 		},
 
-		moveToTrash({state, getters, commit}) {
+		moveToTrash({state, commit}) {
 			if (state.isNoteNew) {
 				commit("createOrTrash", "trash");
 				commit("resetNote");
 			} else {
-				const noteToTrash = getters.findNote;
+				const noteToTrash = findNote(state.userNotes, state.noteId);
 				commit("updateNote", noteToTrash);
 				commit("trashNote", noteToTrash);
 			}
 
 			commit("resetNote");
-			commit("formVisibility", false);
+			commit("noteDialogVisibility", false);
 		},
 
 		moveOutOfTrash({commit}) {
 			commit("restoreNote");
 			commit("resetNote");
-			commit("formVisibility", false);
+			commit("noteDialogVisibility", false);
 			commit("addFavouriteNotes");
 		},
 
-		exitNote({state, commit, getters}, page) {
+		exitNote({state, commit}, page) {
 			if (page !== "trash") {
 				if (!state.isNoteEmpty) {
 					if (state.isNoteNew) {
-					  commit("createOrTrash", "create");
+						commit("createOrTrash", "create");
 					} else {
-					  commit("updateNote", getters.findNote);
+						commit("updateNote", findNote(state.userNotes, state.noteId));
 					}
 					commit("addFavouriteNotes");
 				} else {
@@ -191,7 +185,7 @@ export const store = createStore({
 			}
 
 			commit("resetNote");
-			commit("formVisibility", false);
+			commit("noteDialogVisibility", false);
 		},
 
 		emptyTrash({commit}, payload) {

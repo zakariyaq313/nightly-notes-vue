@@ -7,10 +7,10 @@
 		<template v-slot:action-button></template>
 
 		<template v-slot:notes-unavailable>
-			<h2>
+			<span>
 				<NotesIcon />
-				<span>Anything to add?</span>
-			</h2>
+				<h2 class="clickable" @click="newNote">Anything to add?</h2>
+			</span>
 		</template>
 	</BaseComponent>
 </template>
@@ -22,6 +22,11 @@ import NotesIcon from '../icons/NotesIcon.vue';
 export default {
 	components: {
 		BaseComponent, NotesIcon
+	},
+	methods: {
+		newNote() {
+			this.$store.commit("noteDialogVisibility", true);
+		}
 	}
 }
 </script>

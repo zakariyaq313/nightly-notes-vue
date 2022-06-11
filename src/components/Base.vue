@@ -1,94 +1,80 @@
 <template>
-	<div>
-		<nav class="navbar">
-			<div class="page-label">
-				<slot name="page-label"></slot>
-			</div>
-
-			<div>
-				<slot name="action-button">
-					<button
-						class="create-note-btn comical-shadow-clickable"
-						@click="showForm"
-						:disabled="activePage === 'favourites'">
-						
-						<span>
-							<PlusIcon />
-							New Note
-						</span>
-						<span></span>
-						<span></span>
-					</button>
-				</slot>
-			</div>
-		</nav>
-
-		<div v-if="notesUnavailable" class="notes-unavailable">
-			<slot name="notes-unavailable"></slot>
+	<header>
+		<div class="page-label">
+			<slot name="page-label"></slot>
 		</div>
 
-		<slot name="confirm-deletion"></slot>
+		<div>
+			<slot name="action-button">
+				<button
+					class="create-note-btn comical-shadow-clickable"
+					@click="showNoteDialog"
+					:disabled="activePage === 'favourites'">
 
-		<div @click="closeNote" :class="['overlay', overlayVisible]"></div>
-		<div :class="['background-blur', blurOverlayClasses]"></div>
-
-		<CreateNote
-			:activePageName="activePage"
-			:fontDropdownVisible="isFontDropdownVisible"
-			:paletteVisible="isPaletteVisible"
-			@toggle-font-dropdown="toggleFontSelect"
-			@hide-font-dropdown="hideFontSelect"
-			@toggle-palette="toggleThemeSelect"
-			@hide-palette="hideThemeSelect"
-			@delete-note="confirmDeleteAmount"
-			@is-theme-gradient="themeIsGradient">
-		</CreateNote>
-
-		<div class="notes">
-			<Note
-				v-for="note in notes"
-				:key="note.id"
-				:id="note.id"
-				:title="note.title"
-				:text="note.text"
-				:images="note.images"
-				:theme="note.theme"
-				:font="note.font"
-				:favourite="note.favourite">
-			</Note>
+					<span>
+						<PlusIcon />
+						New Note
+					</span>
+					<span></span>
+					<span></span>
+				</button>
+			</slot>
 		</div>
+	</header>
 
-		<footer>
-			<p>
-				Created by
-				<a class="rising-background"
-					href="https://zakariyaq313.github.io/my-website/"
-					target="_blank" rel="noopener noreferrer">
-					Muhammad Zakariya
-				</a>
-			</p>
-		</footer>
+	<div v-if="notesUnavailable" class="notes-unavailable">
+		<slot name="notes-unavailable"></slot>
+	</div>
+
+	<slot name="confirm-deletion"></slot>
+
+	<div @click="closeNote" :class="['overlay', overlayVisible]"></div>
+	<div :class="['background-blur', blurOverlayClasses]"></div>
+
+	<NoteDialog
+		:activePageName="activePage"
+		:fontDropdownVisible="isFontDropdownVisible"
+		:paletteVisible="isPaletteVisible"
+		@toggle-font-dropdown="toggleFontSelect"
+		@hide-font-dropdown="hideFontSelect"
+		@toggle-palette="toggleThemeSelect"
+		@hide-palette="hideThemeSelect"
+		@delete-note="confirmDeleteAmount"
+		@is-theme-gradient="themeIsGradient">
+	</NoteDialog>
+
+	<div v-if="!notesUnavailable" class="notes">
+		<Note
+			v-for="note in notes"
+			:key="note.id"
+			:id="note.id"
+			:title="note.title"
+			:text="note.text"
+			:images="note.images"
+			:theme="note.theme"
+			:font="note.font"
+			:favourite="note.favourite">
+		</Note>
 	</div>
 </template>
 
 <script>
-import CreateNote from "./NoteDialog.vue";
+import NoteDialog from "./NoteDialog.vue";
 import PlusIcon from "./icons/PlusIcon.vue";
 import Note from "./Note.vue";
 
 export default {
 	name: "Base",
-
 	components: {
-		CreateNote, Note, PlusIcon
+		NoteDialog, Note, PlusIcon
 	},
-
 	props: {
 		activePage: {
 			type: String,
 			required: true
 		}
 	},
+	emits: ["confirm-deletion"],
 
 	data() {
 		return {
@@ -119,9 +105,9 @@ export default {
 			this.isThemeGradient = value;
 		},
 
-		showForm() {
+		showNoteDialog() {
 			this.$store.commit("newNote", true);
-			this.$store.commit("formVisibility", true);
+			this.$store.commit("noteDialogVisibility", true);
 		},
 
 		closeNote() {
@@ -147,7 +133,7 @@ export default {
 		},
 
 		notesUnavailable() {
-			if(this.notes.length <= 0 && !this.$store.state.isFormVisible) {
+			if(this.notes.length <= 0) {
 				return true;
 			} else {
 				return false;
@@ -155,15 +141,16 @@ export default {
 		},
 
 		overlayVisible() {
-			return this.$store.state.isFormVisible ? "overlay-visible" : "";
+			return this.$store.state.isNoteDialogVisible ? "overlay-visible" : "";
 		},
 
 		blurOverlayClasses() {
-			let classes = [
-							this.$store.state.noteTheme, //theme colour
-							this.$store.state.isFormVisible &&
-							this.isThemeGradient ? "blur-visible" : "" //visibility
-						];
+			const classes = [
+				this.$store.state.noteTheme, //theme colour
+				this.$store.state.isNoteDialogVisible &&
+				this.isThemeGradient ? "blur-visible" : "" //visibility
+			];
+
 			return classes;
 		}
 	},
@@ -171,10 +158,10 @@ export default {
 	mounted() {
 		this.$watch (
 			() => [
-					this.$store.state.noteTitle,
-					this.$store.state.noteText,
-					this.$store.state.noteImages
-				],
+				this.$store.state.noteTitle,
+				this.$store.state.noteText,
+				this.$store.state.noteImages
+			],
 			(currentValue) => {
 				if (currentValue[0].trim() !== "" ||
 					currentValue[1].trim() !== "" ||

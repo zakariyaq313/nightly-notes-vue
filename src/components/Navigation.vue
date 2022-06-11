@@ -19,9 +19,8 @@ import HeartOutlineIcon from './icons/HeartOutlineIcon.vue';
 import HomeIcon from './icons/HomeIcon.vue';
 import TrashIcon from './icons/TrashIcon.vue';
 export default {
-  components: { HomeIcon, HeartOutlineIcon, TrashIcon },
+	components: { HomeIcon, HeartOutlineIcon, TrashIcon },
 	name: "Navigation",
-
 	data() {
 		return {
 			focusPage: ""
@@ -37,9 +36,10 @@ export default {
 	watch: {
 		"$route": {
 			handler: function() {
-				let currentPage = this.$router.currentRoute.value.name;
+				const currentPage = this.$router.currentRoute.value.name;
 				this.focusPage = `focus-${currentPage}`;
 			},
+			
 			deep: true
 		}
 	}

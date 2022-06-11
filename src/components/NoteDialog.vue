@@ -5,10 +5,10 @@
 		to update this app anymore, hence this will remain the way it is.
 	-->
 
-	<form :class="formClasses">
-		<div class="upper-half">
+	<form :class="['note-dialog', noteDialogClasses]">
+		<div class="note-content">
 			<div class="action-buttons">
-				<button @click.prevent="hideForm">
+				<button @click.prevent="closeNoteDialog">
 					<ArrowLeftIcon />
 				</button>
 
@@ -21,7 +21,7 @@
 			</div>
 
 			<!-- Note images -->
-			<div v-if="imagesPresent" class="images" :style="imageColumn" @click="hidePalette">
+			<div v-if="imagesPresent" class="images" :style="imagesColumn" @click="hidePalette">
 				<div v-for="(image, index) in $store.state.noteImages" :key="index" class="image">
 					<img :src="image" :class="imageWidth">
 
@@ -47,7 +47,7 @@
 					spellcheck="false" 
 				/>
 				
-				<!-- Note text -->
+				<!-- Note content -->
 				<textarea
 					placeholder="Your note"
 					:disabled="trashIsOpen"
@@ -68,83 +68,75 @@
 			</div>
 		</div>
 				
-		<div class="lower-half">
-			<div class="note-options">
-				<span
-					v-if="!trashIsOpen"
-					@click="toggleFontDropdown"
-					class="font-select-button">
-						Font family
-						<ArrowDownIcon :style="rotateArrow" />
-				</span>
+		<div class="note-options">
+			<span v-if="!trashIsOpen"
+				@click="toggleFontDropdown"
+				class="font-select-button">
+					Font family
+					<ArrowDownIcon :style="rotateArrow" />
+			</span>
 
-				<button
-					v-if="!trashIsOpen"
-					@click.prevent="uploadButtonClicked"
-					title="Image">
-						<ImageIcon />
-				</button>
+			<button v-if="!trashIsOpen"
+				@click.prevent="uploadButtonClicked"
+				title="Image">
+					<ImageIcon />
+			</button>
 
-				<button
-					v-if="!trashIsOpen"
-					@click.prevent="togglePalette"
-					title="Background colour">
-						<PaletteIcon />
-				</button>
+			<button v-if="!trashIsOpen"
+				@click.prevent="togglePalette"
+				title="Background colour">
+					<PaletteIcon />
+			</button>
 
-				<button
-					v-if="!trashIsOpen"
-					@click.prevent="removeNote"
-					:disabled="$store.state.isNoteEmpty"
-					title="Delete">
-						<DeleteIcon />
-				</button>
+			<button v-if="!trashIsOpen"
+				@click.prevent="removeNote"
+				:disabled="$store.state.isNoteEmpty"
+				title="Delete">
+					<DeleteIcon />
+			</button>
 
-				<button
-					v-if="trashIsOpen"
-					@click.prevent="deleteSingleNote"
-					title="Delete forever">
-						<DeleteIcon />
-				</button>
+			<button v-if="trashIsOpen"
+				@click.prevent="deleteSingleNote"
+				title="Delete forever">
+					<DeleteIcon />
+			</button>
 
-				<button
-					v-if="trashIsOpen"
-					@click.prevent="restoreNote"
-					title="Restore">
-						<RestoreIcon />
-				</button>
+			<button v-if="trashIsOpen"
+				@click.prevent="restoreNote"
+				title="Restore">
+					<RestoreIcon />
+			</button>
 
-				<ul v-if="fontDropdownVisible" class="font-selection-dropdown">
-					<li v-for="(fontStyle, index) in fontStyles"
-						:key="index"
-						:class="fontClasses(fontStyle.class)"
-						@click="fontChange(fontStyle.class)">
-							{{ fontStyle.name }}
-					</li>
-				</ul>
+			<ul v-if="fontDropdownVisible" class="font-selection-dropdown">
+				<li v-for="(fontStyle, index) in fontStyles"
+					:key="index"
+					:class="fontClasses(fontStyle.class)"
+					@click="fontChange(fontStyle.class)">
+						{{ fontStyle.name }}
+				</li>
+			</ul>
 
-				<div v-if="paletteVisible" class="palette-container">
-					<div class="palette comical-shadow-idle">
-						<div class="solid-colours">
-							<b>Solid</b>
-							<div class="theme-buttons">
-								<button v-for="(themeColour, index) in themeColours"
-										:key="index"
-										:class="activeTheme(themeColour)"
-										@click.prevent="themeChange(themeColour, false)">
-								</button>
-							</div>
+			<div v-if="paletteVisible" class="palette-container">
+				<div class="palette comical-shadow-idle">
+					<div class="solid-colours">
+						<b>Solid</b>
+						<div class="theme-buttons">
+							<button v-for="(themeColour, index) in themeColours"
+								:key="index"
+								:class="activeTheme(themeColour)"
+								@click.prevent="themeChange(themeColour, false)">
+							</button>
 						</div>
+					</div>
 
-						<div class="gradient-colours">
-							<b>Gradient</b>
-							<div class="theme-buttons">
-								<button v-for="(themeGradient, index) in themeGradients"
-										:key="index"
-										:class="activeTheme(themeGradient)"
-										@click.prevent="themeChange(themeGradient, true)">
-								</button>
-							</div>
+					<div class="gradient-colours">
+						<b>Gradient</b>
+						<div class="theme-buttons">
+							<button v-for="(themeGradient, index) in themeGradients"
+								:key="index"
+								:class="activeTheme(themeGradient)"
+								@click.prevent="themeChange(themeGradient, true)">
+							</button>
 						</div>
 					</div>
 				</div>
@@ -166,7 +158,7 @@ import RestoreIcon from './icons/RestoreIcon.vue';
 
 export default {
   	components: { ArrowLeftIcon, HeartOutlineIcon, HeartFilledIcon, DeleteIcon, ArrowDownIcon, ImageIcon, PaletteIcon, RestoreIcon },
-	name: "CreateNote",
+	name: "NoteDialog",
 	props: {
 		activePageName: {
 			type: String,
@@ -197,7 +189,9 @@ export default {
 		return {
 			fontStyles: fontStyles,
 			themeColours: themeColours,
-			themeGradients: themeGradients
+			themeGradients: themeGradients,
+			imagesColumn: "",
+			imageWidth: ""
 		}
 	},
 
@@ -218,14 +212,12 @@ export default {
 			this.$emit("toggle-palette");
 		},
 
-		uploadButtonClicked() {
-			this.closeOtherActions();
-			this.$refs.uploadImage.click();
+		hideFontDropdown() {
+			this.$emit("hide-font-dropdown");
 		},
 
-		removeNote() {
-			this.closeOtherActions();
-			this.$store.dispatch("moveToTrash");
+		hidePalette() {
+			this.$emit("hide-palette");
 		},
 
 		closeOtherActions() {
@@ -238,17 +230,22 @@ export default {
 			}
 		},
 
-		hideFontDropdown() {
-			this.$emit("hide-font-dropdown");
+		uploadButtonClicked() {
+			this.closeOtherActions();
+			this.$refs.uploadImage.click();
 		},
 
-		hidePalette() {
-			this.$emit("hide-palette");
+		imageUpload(e) {
+			this.$store.commit("imageUploaded", URL.createObjectURL(e.target.files[0]));
 		},
 
-		hideForm() {
-			this.hideFontDropdown();
-			this.hidePalette();
+		removeNote() {
+			this.closeOtherActions();
+			this.$store.dispatch("moveToTrash");
+		},
+
+		closeNoteDialog() {
+			this.closeOtherActions();
 			this.$store.dispatch("exitNote", this.activePageName);
 		},
 
@@ -265,7 +262,7 @@ export default {
 		},
 
 		deleteSingleNote() {
-			this.$emit("delete-note", "delete-one");
+			this.$emit("delete-note", "one");
 		},
 
 		restoreNote() {
@@ -276,16 +273,15 @@ export default {
 			this.$store.commit("deleteImages", index);
 		},
 
-		imageUpload(e) {
-			this.$store.commit("imageUploaded", URL.createObjectURL(e.target.files[0]));
-		},
-
 		activeTheme(theme) {
 			let activeThemeName = theme;
 			if (activeThemeName === "dark") {
 				activeThemeName = "default-theme-button";
 			}
-			return this.$store.state.noteTheme === theme ? `${activeThemeName} active-theme` : activeThemeName;
+
+			return this.$store.state.noteTheme === theme ?
+				`${activeThemeName} active-theme` :
+				activeThemeName;
 		},
 
 		themeChange(theme, isGradient) {
@@ -303,25 +299,18 @@ export default {
 	},
 
 	computed: {
-		formClasses() {
-			let classes = [
+		noteDialogClasses() {
+			const classes = [
 				this.$store.state.noteTheme, //theme
 				this.$store.state.noteFont, //font
-				this.$store.state.isFormVisible ? "form-visible" : "" //visibility
+				this.$store.state.isNoteDialogVisible ? "note-dialog-visible" : "" //visibility
 			];
+
 			return classes;
 		},
 
 		imagesPresent() {
 			return this.$store.state.noteImages.length > 0;
-		},
-
-		imageColumn() {
-			return this.$store.state.noteImages.length === 1 ? "columns: 1" : "columns: 2";
-		},
-
-		imageWidth() {
-			return this.$store.state.noteImages.length === 1 ? "rem-50" : "rem-24";
 		},
 
 		rotateArrow() {
@@ -349,6 +338,21 @@ export default {
 				this.$store.commit("currentNote", note);
 			}
 		}
+	},
+
+	mounted() {
+		this.$watch(() => [this.$store.state.noteImages], (images) => {
+			if (images[0].length === 1) {
+				this.imagesColumn = "columns: 1";
+				this.imageWidth = "rem-50";
+			} else {
+				this.imagesColumn = "columns: 2";
+				this.imageWidth = "rem-24";
+			}
+		},
+		{
+			deep: true
+		})
 	}
 }
 </script>

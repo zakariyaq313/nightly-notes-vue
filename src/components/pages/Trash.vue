@@ -8,7 +8,7 @@
 			<div>
 				<button
 					class="empty-trash comical-shadow-clickable"
-					@click="confirmDeletion('delete-all')"
+					@click="confirmDeletion('all')"
 					:disabled="$store.state.trashedNotes.length <= 0">
 					<span>
 						<TrashIcon />
@@ -21,10 +21,10 @@
 		</template>
 
 		<template v-slot:notes-unavailable>
-			<h2 class="trash-info">
+			<span class="trash-info">
 				<SparklesIcon />
-				<span>Trash is empty</span>
-			</h2>
+				<h2>Trash is empty</h2>
+			</span>
 		</template>
 
 		<template v-slot:confirm-deletion>
@@ -77,7 +77,7 @@ export default {
 
 		deleteConfirmed() {
 			this.$store.dispatch("emptyTrash", this.deleteAmount);
-			this.$store.commit("formVisibility", false);
+			this.$store.commit("noteDialogVisibility", false);
 			this.isConfirmDeleteVisible = false;
 		},
 
@@ -94,7 +94,7 @@ export default {
 
 	watch: {
 		deleteAmount() {
-			if (this.deleteAmount === "delete-one") {
+			if (this.deleteAmount === "one") {
 				this.deletionWarningText = "Are you sure you want to delete this note?";
 				this.deleteButtonText = "Delete";
 			} else {

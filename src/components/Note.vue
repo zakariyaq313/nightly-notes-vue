@@ -75,7 +75,7 @@ export default {
 			})
 
 			this.$store.commit("newNote", false);
-			this.$store.commit("formVisibility", true);
+			this.$store.commit("noteDialogVisibility", true);
 		},
 	},
 

@@ -1,6 +1,6 @@
 # **Notes Mini**
 
-Notes app inspired from Google Keep
+Notes app inspired from Google Keep - created with Vue. There is also an <a href="https://github.com/zakariyaq313/notes-mini-react">alternate version</a> with React.
 
 <a href="https://zakariyaq313.github.io/notes-mini-vue/"><img src="./src/assets/images/screen.png"></a>
 
@@ -9,7 +9,7 @@ Made using -
 - **Vue 3** - Main framework
 - **Vuex** - State management
 - **Vue Router** - Page routing 
-- **Sass/external CSS** - Element styling
+- **Sass/external stylesheet** - Element styling
 
 How to run in local server -
 - **Clone** the respository

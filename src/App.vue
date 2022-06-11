@@ -1,15 +1,17 @@
 <template>
 	<main>
-		<navigation></navigation>
-		<router-view></router-view>
+		<Navigation />
+		<RouterView />
+		<Footer />
 	</main>
 </template>
 
 <script>
+import Footer from './components/Footer.vue';
 import Navigation from "./components/Navigation.vue";
 
 export default {
-	components: { Navigation },
+	components: { Navigation, Footer },
 	name: "App"
 }
 </script>

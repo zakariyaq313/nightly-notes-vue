@@ -7,10 +7,10 @@
 		<template v-slot:action-button></template>
 
 		<template v-slot:notes-unavailable>
-			<h2 class="favourites-info">
+			<span class="favourites-info">
 				<HeartIcon />
-				<span>No favourite notes</span>
-			</h2>
+				<h2>No favourite notes</h2>
+			</span>
 		</template>
 	</BaseComponent>
 </template>
