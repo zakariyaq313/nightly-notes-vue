@@ -77,7 +77,7 @@ export default {
 
 		deleteConfirmed() {
 			this.$store.dispatch("emptyTrash", this.deleteAmount);
-			this.$store.commit("noteDialogVisibility", false);
+			this.$store.commit("noteDialogIsVisible", false);
 			this.isConfirmDeleteVisible = false;
 		},
 

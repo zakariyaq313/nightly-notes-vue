@@ -25,7 +25,7 @@ export default {
 	},
 	methods: {
 		newNote() {
-			this.$store.commit("noteDialogVisibility", true);
+			this.$store.commit("noteDialogIsVisible", true);
 		}
 	}
 }

@@ -1,23 +1,21 @@
 <template>
-	<div
-		v-if="noteNotEmpty"
-		:class="['note', theme, font]"
-		@click="editNote">
-		
-		<div
-			class="note-images"
-			v-if="noteImagesPresent"
-			:style="imageColumns">
-			
-			<img
-				v-for="(image, index) in images"
+	<div v-if="noteNotEmpty"
+		@click="editNote"
+		:class="['note', theme, font]">
+
+		<div v-if="noteImagesPresent"
+			:style="imageColumns"
+			class="images">
+
+			<img v-for="(image, index) in images"
 				:key="index"
 				:src="image"
+				class="image"
 			/>
 		</div>
-		
-		<h3 v-if="title">{{ title }}</h3>
-		<p>{{ text }}</p>
+
+		<h3 v-if="title" class="title">{{ title }}</h3>
+		<p class="text">{{ text }}</p>
 	</div>
 </template>
 
@@ -63,8 +61,8 @@ export default {
 
 	methods: {
 		editNote() {
-			this.$store.dispatch({
-				type: "fillNoteContent",
+			this.$store.commit({
+				type: "editNote",
 				id: this.id,
 				title: this.title,
 				text: this.text,
@@ -74,8 +72,8 @@ export default {
 				favourite: this.favourite
 			})
 
-			this.$store.commit("newNote", false);
-			this.$store.commit("noteDialogVisibility", true);
+			this.$store.commit("noteIsNew", false);
+			this.$store.commit("noteDialogIsVisible", true);
 		},
 	},
 
@@ -83,9 +81,8 @@ export default {
 		noteNotEmpty() {
 			if (this.title !== "" || this.text !== "" || this.images.length > 0) {
 				return true;
-			} else {
-				return false;
 			}
+			return false;
 		},
 
 		noteImagesPresent() {

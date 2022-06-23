@@ -21,13 +21,12 @@
 			</div>
 
 			<!-- Note images -->
-			<div v-if="imagesPresent" class="images" :style="imagesColumn" @click="hidePalette">
-				<div v-for="(image, index) in $store.state.noteImages" :key="index" class="image">
+			<div v-if="imagesPresent" class="note-images" :style="imagesColumn" @click="hidePalette">
+				<div v-for="(image, index) in $store.state.noteImages" :key="index" class="note-image">
 					<img :src="image" :class="imageWidth">
 
 					<!-- Delete image button -->
-					<button
-						@click.prevent="deleteImage(index)"
+					<button @click.prevent="deleteImage(index)"
 						class="delete-image"
 						:disabled="trashIsOpen">
 							<DeleteIcon />
@@ -37,32 +36,31 @@
 
 			<div class="user-inputs">
 				<!-- Note title -->
-				<input
+				<input v-model="currentTitle"
 					type="text"
 					placeholder="Title"
 					:disabled="trashIsOpen"
-					v-model="currentTitle"
 					@focus="closeOtherActions"
 					@keydown="enterTextarea"
-					spellcheck="false" 
+					spellcheck="false"
+					class="note-title"
 				/>
 				
 				<!-- Note content -->
-				<textarea
+				<textarea v-model="currentNote"
+					ref="textarea"
 					placeholder="Your note"
 					:disabled="trashIsOpen"
-					v-model="currentNote"
 					@focus="closeOtherActions"
-					ref="textarea"
-					spellcheck="false">
+					spellcheck="false"
+					class="note-text">
 				</textarea>
 				
 				<!-- Hidden image upload button -->
-				<input
-					@change="imageUpload"
-					ref="uploadImage"
-					type="file"
+				<input type="file"
+					ref="imageUploader"
 					accept="image/*"
+					@change="uploadImage"
 					style="display: none;"
 				/>
 			</div>
@@ -89,14 +87,14 @@
 			</button>
 
 			<button v-if="!trashIsOpen"
-				@click.prevent="removeNote"
+				@click.prevent="trashNote"
 				:disabled="$store.state.isNoteEmpty"
 				title="Delete">
 					<DeleteIcon />
 			</button>
 
 			<button v-if="trashIsOpen"
-				@click.prevent="deleteSingleNote"
+				@click.prevent="deleteNote"
 				title="Delete forever">
 					<DeleteIcon />
 			</button>
@@ -110,21 +108,22 @@
 			<ul v-if="fontDropdownVisible" class="font-selection-dropdown">
 				<li v-for="(fontStyle, index) in fontStyles"
 					:key="index"
-					:class="fontClasses(fontStyle.class)"
-					@click="fontChange(fontStyle.class)">
+					:class="fontClasses(fontStyle.className)"
+					@click="fontChange(fontStyle.className)">
 						{{ fontStyle.name }}
 				</li>
 			</ul>
 
 			<div v-if="paletteVisible" class="palette-container">
 				<div class="palette comical-shadow-idle">
+
 					<div class="solid-colours">
 						<b>Solid</b>
 						<div class="theme-buttons">
-							<button v-for="(themeColour, index) in themeColours"
+							<button v-for="(solid, index) in colorsSolid"
 								:key="index"
-								:class="activeTheme(themeColour)"
-								@click.prevent="themeChange(themeColour, false)">
+								:class="activeTheme(solid)"
+								@click.prevent="themeChange(solid, false)">
 							</button>
 						</div>
 					</div>
@@ -132,13 +131,14 @@
 					<div class="gradient-colours">
 						<b>Gradient</b>
 						<div class="theme-buttons">
-							<button v-for="(themeGradient, index) in themeGradients"
+							<button v-for="(gradient, index) in colorsGradient"
 								:key="index"
-								:class="activeTheme(themeGradient)"
-								@click.prevent="themeChange(themeGradient, true)">
+								:class="activeTheme(gradient)"
+								@click.prevent="themeChange(gradient, true)">
 							</button>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import { fontStyles, themeColours, themeGradients } from "../store/themeProps";
+import { fontStyles, colorsSolid, colorsGradient } from "../store/themeProps";
 import ArrowDownIcon from './icons/ArrowDownIcon.vue';
 import ArrowLeftIcon from './icons/ArrowLeftIcon.vue';
 import DeleteIcon from './icons/DeleteIcon.vue';
@@ -160,7 +160,7 @@ export default {
   	components: { ArrowLeftIcon, HeartOutlineIcon, HeartFilledIcon, DeleteIcon, ArrowDownIcon, ImageIcon, PaletteIcon, RestoreIcon },
 	name: "NoteDialog",
 	props: {
-		activePageName: {
+		activePage: {
 			type: String,
 			required: true
 		},
@@ -187,9 +187,6 @@ export default {
 
 	data() {
 		return {
-			fontStyles: fontStyles,
-			themeColours: themeColours,
-			themeGradients: themeGradients,
 			imagesColumn: "",
 			imageWidth: ""
 		}
@@ -200,7 +197,6 @@ export default {
 			if (this.paletteVisible) {
 				this.hidePalette();
 			}
-
 			this.$emit("toggle-font-dropdown");
 		},
 
@@ -208,7 +204,6 @@ export default {
 			if (this.fontDropdownVisible) {
 				this.hideFontDropdown();
 			}
-
 			this.$emit("toggle-palette");
 		},
 
@@ -232,21 +227,26 @@ export default {
 
 		uploadButtonClicked() {
 			this.closeOtherActions();
-			this.$refs.uploadImage.click();
+			this.$refs.imageUploader?.click();
 		},
 
-		imageUpload(e) {
-			this.$store.commit("imageUploaded", URL.createObjectURL(e.target.files[0]));
+		uploadImage(e) {
+			const uploadedImage = URL.createObjectURL(e.target.files[0]);
+			this.$store.commit("addNoteImages", uploadedImage);
 		},
 
-		removeNote() {
-			this.closeOtherActions();
-			this.$store.dispatch("moveToTrash");
+		deleteImage(index) {
+			this.$store.commit("deleteNoteImages", index);
 		},
 
 		closeNoteDialog() {
 			this.closeOtherActions();
-			this.$store.dispatch("exitNote", this.activePageName);
+			this.$store.dispatch("exitNote", this.activePage);
+		},
+
+		toggleFavourite() {
+			this.closeOtherActions();
+			this.$store.commit("toggleFavourite");
 		},
 
 		enterTextarea(e) {
@@ -254,23 +254,6 @@ export default {
 				e.preventDefault();
 				this.$refs.textarea.focus();
 			}
-		},
-
-		toggleFavourite() {
-			this.closeOtherActions();
-			this.$store.commit("toggleFavouriteStatus");
-		},
-
-		deleteSingleNote() {
-			this.$emit("delete-note", "one");
-		},
-
-		restoreNote() {
-			this.$store.dispatch("moveOutOfTrash");
-		},
-
-		deleteImage(index) {
-			this.$store.commit("deleteImages", index);
 		},
 
 		activeTheme(theme) {
@@ -286,26 +269,40 @@ export default {
 
 		themeChange(theme, isGradient) {
 			this.$emit("is-theme-gradient", isGradient);
-			this.$store.commit("setTheme", theme);
+			this.$store.commit("setNoteTheme", theme);
 		},
 
 		fontChange(font) {
-			this.$store.commit("setFont", font);
+			this.$store.commit("setNoteFont", font);
 		},
 
 		fontClasses(fontClass) {
-			return fontClass === this.$store.state.noteFont ? [fontClass, "chosen-font"] : fontClass;
+			return fontClass === this.$store.state.noteFont ?
+				[fontClass, "chosen-font"] :
+				fontClass;
+		},
+
+		trashNote() {
+			this.closeOtherActions();
+			this.$store.dispatch("moveToTrash");
+		},
+
+		deleteNote() {
+			this.$emit("delete-note", "one");
+		},
+
+		restoreNote() {
+			this.$store.dispatch("restoreFromTrash");
 		}
 	},
 
 	computed: {
 		noteDialogClasses() {
 			const classes = [
-				this.$store.state.noteTheme, //theme
-				this.$store.state.noteFont, //font
-				this.$store.state.isNoteDialogVisible ? "note-dialog-visible" : "" //visibility
+				this.$store.state.noteTheme, // background color
+				this.$store.state.noteFont, // font-family
+				this.$store.state.isNoteDialogVisible ? "note-dialog-visible" : "" // visibility
 			];
-
 			return classes;
 		},
 
@@ -318,7 +315,7 @@ export default {
 		},
 
 		trashIsOpen() {
-			return this.activePageName === "trash" ? true : false; 
+			return this.activePage === "trash";
 		},
 
 		currentTitle: {
@@ -326,7 +323,7 @@ export default {
 				return this.$store.state.noteTitle;
 			},
 			set(title) {
-				this.$store.commit("currentTitle", title);
+				this.$store.commit("setNoteTitle", title);
 			}
 		},
 
@@ -334,10 +331,16 @@ export default {
 			get() {
 				return this.$store.state.noteText;
 			},
-			set(note) {
-				this.$store.commit("currentNote", note);
+			set(text) {
+				this.$store.commit("setNoteText", text);
 			}
 		}
+	},
+
+	created() {
+		this.fontStyles = fontStyles;
+		this.colorsSolid = colorsSolid;
+		this.colorsGradient = colorsGradient;
 	},
 
 	mounted() {

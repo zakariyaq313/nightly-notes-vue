@@ -37,9 +37,9 @@
         width: 100%;
     }
 
-    input,
-	textarea,
-	button {
+    button,
+    .note-title,
+	.note-text {
 		border: none;
 
 		&:not(.theme-buttons button) {
@@ -47,8 +47,8 @@
 		}
 	}
 
-    input:disabled,
-    textarea:disabled {
+    .note-title:disabled,
+    .note-text:disabled {
         cursor: not-allowed;
         opacity: 0.4;
     }
@@ -89,8 +89,10 @@
     }
 }
 
-.images {
-    .image {
+.note-images {
+    margin-bottom: 2rem;
+    
+    .note-image {
         position: relative;
         margin-bottom: 1rem;
         break-inside: avoid;
@@ -122,8 +124,8 @@
 }
 
 .user-inputs {
-    input,
-    textarea {
+    .note-title,
+    .note-text {
         width: 100%;
         resize: none;
         color: #fff;
@@ -138,11 +140,11 @@
         }
     }
 
-    input {
+    .note-title {
         font-size: 2rem;
     }
 
-    textarea {
+    .note-text {
         font-size: 1.6rem;
         line-height: 1.6;
         height: 30rem;
@@ -164,6 +166,26 @@
             height: 51rem;
         }
     }
+}
+
+.hi-melody .user-inputs {
+    .note-title {
+        font-size: 2.6rem;
+    }
+
+    .note-text {
+        font-size: 2rem;
+    }
+}
+
+.sacramento .user-inputs {
+	.note-title {
+		font-size: 2.6rem;
+	}
+
+	.note-text {
+		font-size: 2.2rem;
+	}
 }
 
 .note-options {

@@ -1,54 +1,46 @@
 export const fontStyles = [
 	{
 		name: "Glacial Indifference",
-		class: "glacial"
-	},
-	{
-		name: "Montserrat",
-		class: "montserrat"
+		className: "glacial"
 	},
 	{
 		name: "Major Mono",
-		class: "major-mono-display"
+		className: "major-mono-display"
 	},
 	{
-		name: "Poppins",
-		class: "poppins"
+		name: "Sacramento",
+		className: "sacramento"
 	},
 	{
-		name: "Raleway",
-		class: "raleway"
-	},
-	{
-		name: "Roboto",
-		class: "roboto"
-	},
-	{
-		name: "Source Code Pro",
-		class: "source-code-pro"
-	},
-	{
-		name: "Pacifico",
-		class: "pacifico"
+		name: "Montserrat",
+		className: "montserrat"
 	},
 	{
 		name: "Hi Melody",
-		class: "hi-melody"
+		className: "hi-melody"
 	},
 	{
-		name: "Freckle Face",
-		class: "freckle-face"
+		name: "Space Mono",
+		className: "space-mono"
 	},
 	{
-		name: "Permanent Marker",
-		class: "permanent-marker"
+		name: "Poppins",
+		className: "poppins"
 	},
+	{
+		name: "Raleway",
+		className: "raleway"
+	},
+	{
+		name: "Roboto",
+		className: "roboto"
+	}
 ];
 
-export const themeColours = [
+export const colorsSolid = [
 	"dark", "pink", "orange", "green", "purple", "brown", "gray"
 ];
 
-export const themeGradients = [
+export const colorsGradient = [
 	"greenery", "sublime-vivid", "dimigo", "reef", "light-purple", "witching-hour", "titanium"
 ];

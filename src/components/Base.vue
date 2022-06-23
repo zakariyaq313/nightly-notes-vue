@@ -32,7 +32,7 @@
 	<div :class="['background-blur', blurOverlayClasses]"></div>
 
 	<NoteDialog
-		:activePageName="activePage"
+		:activePage="activePage"
 		:fontDropdownVisible="isFontDropdownVisible"
 		:paletteVisible="isPaletteVisible"
 		@toggle-font-dropdown="toggleFontSelect"
@@ -106,8 +106,8 @@ export default {
 		},
 
 		showNoteDialog() {
-			this.$store.commit("newNote", true);
-			this.$store.commit("noteDialogVisibility", true);
+			this.$store.commit("noteIsNew", true);
+			this.$store.commit("noteDialogIsVisible", true);
 		},
 
 		closeNote() {
@@ -135,9 +135,8 @@ export default {
 		notesUnavailable() {
 			if(this.notes.length <= 0) {
 				return true;
-			} else {
-				return false;
 			}
+			return false;
 		},
 
 		overlayVisible() {
@@ -166,9 +165,9 @@ export default {
 				if (currentValue[0].trim() !== "" ||
 					currentValue[1].trim() !== "" ||
 					currentValue[2].length > 0) {
-						this.$store.commit("noteEmpty", false);
+						this.$store.commit("noteIsEmpty", false);
 				} else {
-					this.$store.commit("noteEmpty", true);
+					this.$store.commit("noteIsEmpty", true);
 				}
 			},
 			{

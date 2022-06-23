@@ -22,20 +22,40 @@ export const store = createStore({
 	},
 
 	mutations: {
-		noteDialogVisibility(state, payload) {
+		noteDialogIsVisible(state, payload) {
 			state.isNoteDialogVisible = payload;
 		},
+
+		noteIsEmpty(state, payload) {
+			state.isNoteEmpty = payload;
+		},
+
+		noteIsNew(state, payload) {
+			state.isNoteNew = payload;
+		},
 		
-		currentTitle(state, payload) {
+		setNoteTitle(state, payload) {
 			state.noteTitle = payload;
 		},
 
-		currentNote(state, payload) {
+		setNoteText(state, payload) {
 			state.noteText = payload;
 		},
 
-		imageUploaded(state, payload) {
+		addNoteImages(state, payload) {
 			state.noteImages.push(payload);
+		},
+
+		setNoteTheme(state, payload) {
+			state.noteTheme = payload;
+		},
+
+		setNoteFont(state, payload) {
+			state.noteFont = payload;
+		},
+
+		toggleFavourite(state) {
+			state.noteIsFavourite = !state.noteIsFavourite;
 		},
 
 		createOrTrash(state, payload) {
@@ -56,7 +76,7 @@ export const store = createStore({
 			}
 		},
 
-		editingNote(state, payload) {
+		editNote(state, payload) {
 			state.noteId = payload.id;
 			state.noteTitle = payload.title;
 			state.noteText = payload.text;
@@ -66,9 +86,9 @@ export const store = createStore({
 			state.noteIsFavourite = payload.favourite;
 		},
 
-		updateNote(state, payload) {
-			const noteFound = payload;
-			Object.assign(noteFound, {
+		updateNote(state) {
+			const noteToUpdate = findNote(state.userNotes, state.noteId);
+			Object.assign(noteToUpdate, {
 				title: state.noteTitle.trim(),
 				text: state.noteText,
 				images: state.noteImages,
@@ -88,20 +108,25 @@ export const store = createStore({
 			state.noteIsFavourite = false;
 		},
 
-		trashNote(state, payload) {
-			state.trashedNotes.unshift(payload);
-			state.favouriteNotes = filterNotes(state.favouriteNotes, payload.id);
-			state.userNotes = filterNotes(state.userNotes, payload.id);
+		trashNote(state) {
+			const noteToTrash = findNote(state.userNotes, state.noteId);
+			state.trashedNotes.unshift(noteToTrash);
+			state.userNotes = filterNotes(state.userNotes, noteToTrash.id);
+			state.favouriteNotes = state.userNotes.filter(note => note.favourite);
+		},
+
+		restoreNote(state) {
+			const noteToRestore = findNote(state.trashedNotes, state.noteId);
+			state.userNotes.unshift(noteToRestore);
+			state.trashedNotes = filterNotes(state.trashedNotes, noteToRestore.id);
 		},
 
 		removeEmptyNote(state) {
 			state.userNotes = filterNotes(state.userNotes, state.noteId);
 		},
 
-		restoreNote(state) {
-			const noteFound = findNote(state.trashedNotes, state.noteId);
-			state.userNotes.unshift(noteFound);
-			state.trashedNotes = filterNotes(state.trashedNotes, noteFound.id);
+		deleteNoteImages(state, payload) {
+			state.noteImages.splice(payload, 1);
 		},
 
 		deleteNotes(state, payload) {
@@ -112,58 +137,29 @@ export const store = createStore({
 			}
 		},
 
-		setTheme(state, payload) {
-			state.noteTheme = payload;
-		},
-
-		setFont(state, payload) {
-			state.noteFont = payload;
-		},
-
-		noteEmpty(state, payload) {
-			state.isNoteEmpty = payload;
-		},
-
-		newNote(state, payload) {
-			state.isNoteNew = payload;
-		},
-
-		deleteImages(state, payload) {
-			state.noteImages.splice(payload, 1);
-		},
-
-		toggleFavouriteStatus(state) {
-			state.noteIsFavourite = !state.noteIsFavourite;
-		},
-
 		addFavouriteNotes(state) {
-			state.favouriteNotes = state.userNotes.filter(note => note.favourite === true);
-		},
+			state.favouriteNotes = state.userNotes.filter(note => note.favourite);
+		}
 	},
 
 	actions: {
-		fillNoteContent({commit}, payload) {
-			commit("editingNote", payload);
-		},
-
 		moveToTrash({state, commit}) {
 			if (state.isNoteNew) {
 				commit("createOrTrash", "trash");
 				commit("resetNote");
 			} else {
-				const noteToTrash = findNote(state.userNotes, state.noteId);
-				commit("updateNote", noteToTrash);
-				commit("trashNote", noteToTrash);
+				commit("updateNote");
+				commit("trashNote");
 			}
 
 			commit("resetNote");
-			commit("noteDialogVisibility", false);
+			commit("noteDialogIsVisible", false);
 		},
 
-		moveOutOfTrash({commit}) {
+		restoreFromTrash({commit}) {
 			commit("restoreNote");
 			commit("resetNote");
-			commit("noteDialogVisibility", false);
+			commit("noteDialogIsVisible", false);
 			commit("addFavouriteNotes");
 		},
 
@@ -173,7 +169,7 @@ export const store = createStore({
 					if (state.isNoteNew) {
 						commit("createOrTrash", "create");
 					} else {
-						commit("updateNote", findNote(state.userNotes, state.noteId));
+						commit("updateNote");
 					}
 					commit("addFavouriteNotes");
 				} else {
@@ -185,12 +181,12 @@ export const store = createStore({
 			}
 
 			commit("resetNote");
-			commit("noteDialogVisibility", false);
+			commit("noteDialogIsVisible", false);
 		},
 
 		emptyTrash({commit}, payload) {
 			commit("deleteNotes", payload);
 			commit("resetNote");
-		},
+		}
 	}
 })

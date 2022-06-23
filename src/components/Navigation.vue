@@ -1,17 +1,17 @@
 <template>
-		<nav :class="['navigation-buttons', focusPage]">
-			<button title="Home" @click="switchPage('home')">
-				<HomeIcon />
-			</button>
+	<nav :class="['navigation-buttons', focusPage]">
+		<button title="Home" @click="switchPage('home')">
+			<HomeIcon />
+		</button>
 
-			<button title="Favourites" @click="switchPage('favourites')">
-				<HeartOutlineIcon />
-			</button>
+		<button title="Favourites" @click="switchPage('favourites')">
+			<HeartOutlineIcon />
+		</button>
 
-			<button title="Trash" @click="switchPage('trash')">
-				<TrashIcon />
-			</button>
-		</nav>
+		<button title="Trash" @click="switchPage('trash')">
+			<TrashIcon />
+		</button>
+	</nav>
 </template>
 
 <script>
