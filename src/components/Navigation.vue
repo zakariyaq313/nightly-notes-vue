@@ -1,16 +1,8 @@
 <template>
-	<nav :class="['navigation-buttons', focusPage]">
-		<button title="Home" @click="switchPage('home')">
-			<HomeIcon />
-		</button>
-
-		<button title="Favourites" @click="switchPage('favourites')">
-			<HeartOutlineIcon />
-		</button>
-
-		<button title="Trash" @click="switchPage('trash')">
-			<TrashIcon />
-		</button>
+	<nav :class="['navigation-buttons', focusedPage]">
+		<button @click="switchPage('home')" title="Home"><HomeIcon/></button>
+		<button @click="switchPage('favourites')" title="Favourites"><HeartOutlineIcon/></button>
+		<button @click="switchPage('trash')" title="Trash"><TrashIcon/></button>
 	</nav>
 </template>
 
@@ -23,23 +15,20 @@ export default {
 	name: "Navigation",
 	data() {
 		return {
-			focusPage: ""
+			focusedPage: ""
 		}
 	},
-
 	methods: {
 		switchPage(page) {
 			this.$router.push(`/${page}`);
 		}
 	},
-
 	watch: {
 		"$route": {
 			handler: function() {
 				const currentPage = this.$router.currentRoute.value.name;
-				this.focusPage = `focus-${currentPage}`;
+				this.focusedPage = `focus-${currentPage}`;
 			},
-			
 			deep: true
 		}
 	}

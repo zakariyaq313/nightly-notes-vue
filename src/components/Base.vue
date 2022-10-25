@@ -4,22 +4,15 @@
 			<slot name="page-label"></slot>
 		</div>
 
-		<div>
-			<slot name="action-button">
-				<button
-					class="create-note-btn comical-shadow-clickable"
-					@click="showNoteDialog"
-					:disabled="activePage === 'favourites'">
-
-					<span>
-						<PlusIcon />
-						New Note
-					</span>
+		<slot name="action-button">
+			<button	class="create-note-btn comical-shadow-clickable"
+				:disabled="activePage === 'favourites'"
+				@click="showNoteDialog">
+					<span><PlusIcon/>New Note</span>
 					<span></span>
 					<span></span>
 				</button>
 			</slot>
-		</div>
 	</header>
 
 	<div v-if="notesUnavailable" class="notes-unavailable">
@@ -28,13 +21,14 @@
 
 	<slot name="confirm-deletion"></slot>
 
-	<div @click="closeNote" :class="['overlay', overlayVisible]"></div>
-	<div :class="['background-blur', blurOverlayClasses]"></div>
+	<div @click="closeNote" :class="['overlay', overlayClasses]"></div>
+	<div v-if="isThemeGradient && $store.state.isNoteDialogVisible"
+		:class="['background-blur', backgroundBlurClasses]">
+	</div>
 
-	<NoteDialog
-		:activePage="activePage"
-		:fontDropdownVisible="isFontDropdownVisible"
-		:paletteVisible="isPaletteVisible"
+	<NoteDialog :activePage="activePage"
+		:fontDropdownVisible="fontSelectVisible"
+		:paletteVisible="themePaletteVisible"
 		@toggle-font-dropdown="toggleFontSelect"
 		@hide-font-dropdown="hideFontSelect"
 		@toggle-palette="toggleThemeSelect"
@@ -44,8 +38,7 @@
 	</NoteDialog>
 
 	<div v-if="!notesUnavailable" class="notes">
-		<Note
-			v-for="note in notes"
+		<Note v-for="note in notes"
 			:key="note.id"
 			:id="note.id"
 			:title="note.title"
@@ -65,9 +58,7 @@ import Note from "./Note.vue";
 
 export default {
 	name: "Base",
-	components: {
-		NoteDialog, Note, PlusIcon
-	},
+	components: {NoteDialog, Note, PlusIcon},
 	props: {
 		activePage: {
 			type: String,
@@ -75,52 +66,42 @@ export default {
 		}
 	},
 	emits: ["confirm-deletion"],
-
 	data() {
 		return {
-			isPaletteVisible: false,
-			isFontDropdownVisible: false,
+			themePaletteVisible: false,
+			fontSelectVisible: false,
 			isThemeGradient: false
 		}
 	},
-
 	methods: {
 		toggleFontSelect() {
-			this.isFontDropdownVisible = !this.isFontDropdownVisible;
+			this.fontSelectVisible = !this.fontSelectVisible;
 		},
-
 		hideFontSelect() {
-			this.isFontDropdownVisible = false;
+			this.fontSelectVisible = false;
 		},
-
 		toggleThemeSelect() {
-			this.isPaletteVisible = !this.isPaletteVisible;
+			this.themePaletteVisible = !this.themePaletteVisible;
 		},
-
 		hideThemeSelect() {
-			this.isPaletteVisible = false;
+			this.themePaletteVisible = false;
 		},
-
 		themeIsGradient(value) {
 			this.isThemeGradient = value;
 		},
-
 		showNoteDialog() {
 			this.$store.commit("noteIsNew", true);
 			this.$store.commit("noteDialogIsVisible", true);
 		},
-
 		closeNote() {
 			this.hideThemeSelect();
 			this.hideFontSelect();
 			this.$store.dispatch("exitNote", this.activePage);
 		},
-
 		confirmDeleteAmount(amount) {
 			this.$emit("confirm-deletion", amount);
 		}
 	},
-
 	computed: {
 		notes() {
 			if (this.activePage === "favourites") {
@@ -131,49 +112,25 @@ export default {
 				return this.$store.state.userNotes;
 			}
 		},
-
 		notesUnavailable() {
-			if(this.notes.length <= 0) {
-				return true;
-			}
-			return false;
+			return this.notes.length === 0 ? true : false;
 		},
-
-		overlayVisible() {
+		overlayClasses() {
 			return this.$store.state.isNoteDialogVisible ? "overlay-visible" : "";
 		},
-
-		blurOverlayClasses() {
-			const classes = [
-				this.$store.state.noteTheme, //theme colour
-				this.$store.state.isNoteDialogVisible &&
-				this.isThemeGradient ? "blur-visible" : "" //visibility
-			];
-
-			return classes;
+		backgroundBlurClasses() {
+			return this.$store.state.noteTheme;
 		}
 	},
-
 	mounted() {
-		this.$watch (
-			() => [
-				this.$store.state.noteTitle,
-				this.$store.state.noteText,
-				this.$store.state.noteImages
-			],
-			(currentValue) => {
-				if (currentValue[0].trim() !== "" ||
-					currentValue[1].trim() !== "" ||
-					currentValue[2].length > 0) {
-						this.$store.commit("noteIsEmpty", false);
-				} else {
-					this.$store.commit("noteIsEmpty", true);
-				}
-			},
-			{
-				deep: true
+		const state = this.$store.state;
+		this.$watch (() => [state.noteTitle, state.noteText, state.noteImages], (value) => {
+			if (value[0].trim() !== "" || value[1].trim() !== "" || value[2].length > 0) {
+				this.$store.commit("noteIsEmpty", false);
+			} else {
+				this.$store.commit("noteIsEmpty", true);
 			}
-		)
+		}, {deep: true})
 	}
 };
 </script>

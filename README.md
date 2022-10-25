@@ -1,11 +1,11 @@
-# **Notes Mini**
+# **Nightly Notes (Vue)**
 
-Notes app inspired from Google Keep - created with Vue. There is also an <a href="https://github.com/zakariyaq313/notes-mini-react">alternate version</a> with React.
+A notes app inspired from Google Keep - created with Vue. An alternate version with React [here](https://github.com/zakariyaq313/nightly-notes-react).
 
-<a href="https://zakariyaq313.github.io/notes-mini-vue/"><img src="./src/assets/images/screen.png"></a>
+![Screenshot](./src/assets/images/screen.png)
 
 Made using -
-<br>
+
 - **Vue 3** - Main framework
 - **Vuex** - State management
 - **Vue Router** - Page routing 

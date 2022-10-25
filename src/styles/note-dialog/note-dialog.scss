@@ -1,12 +1,14 @@
 .note-dialog {
     border: 1px solid rgba($color: #fff, $alpha: 0.2);
+    border-radius: 4px;
     justify-content: space-between;
     overflow: auto;
+    opacity: 0;
     padding: 2rem;
-    border-radius: 4px;
     scrollbar-color: #7a7a7a transparent;
     transform: translate(-50%, -50%) scale(0.8);
     transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    z-index: -10;
 
     @include respond(h600px) {
         position: absolute;

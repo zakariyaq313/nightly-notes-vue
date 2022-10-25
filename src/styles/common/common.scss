@@ -145,8 +145,6 @@
     min-width: 54rem;
     min-height: 46rem;
     max-height: 80vh;
-    opacity: 0;
-    z-index: -2;
 
     @include respond(600px) {
         min-width: 90vw;
@@ -156,16 +154,6 @@
         min-height: 70vh;
         max-height: 75vh;
     }
-}
-
-.background-blur {
-    filter: blur(10rem);
-    transform: translate(-50%, -50%) scale(0.9);
-}
-
-.blur-visible {
-    opacity: 1;
-    z-index: 50;
 }
 
 .rising-background {

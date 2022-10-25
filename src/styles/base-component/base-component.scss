@@ -111,6 +111,12 @@ header .logo {
     z-index: 50;
 }
 
+.background-blur {
+    filter: blur(10rem);
+    transform: translate(-50%, -50%) scale(0.9);
+    z-index: 50;
+}
+
 footer {
     position: absolute;
     bottom: 2rem;

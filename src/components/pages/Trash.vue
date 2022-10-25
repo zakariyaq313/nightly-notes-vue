@@ -5,19 +5,13 @@
 		</template>
 
 		<template v-slot:action-button>
-			<div>
-				<button
-					class="empty-trash comical-shadow-clickable"
-					@click="confirmDeletion('all')"
-					:disabled="$store.state.trashedNotes.length <= 0">
-					<span>
-						<TrashIcon />
-						Empty Trash
-					</span>
+			<button class="empty-trash comical-shadow-clickable"
+				:disabled="$store.state.trashedNotes.length === 0"
+				@click="confirmDeletion('all')">
+					<span><TrashIcon/>Empty Trash</span>
 					<span></span>
 					<span></span>
-				</button>
-			</div>
+			</button>
 		</template>
 
 		<template v-slot:notes-unavailable>
@@ -30,18 +24,10 @@
 		<template v-slot:confirm-deletion>
 			<div @click.self="cancelDelete" :class="['delete-confirm', deleteConfirmVisible]">
 				<div class="confirmation-dialog">
-					<strong>{{ deletionWarningText }}</strong>
+					<strong>{{ deleteWarningText }}</strong>
 					<div class="delete-confirm-buttons">
-						<button
-							class="rising-background"
-							@click="cancelDelete">
-								Cancel
-						</button>
-						<button
-							class="rising-background"
-							@click="deleteConfirmed">
-								{{ deleteButtonText }}
-						</button>
+						<button class="rising-background" @click="cancelDelete">Cancel</button>
+						<button class="rising-background" @click="deleteConfirmed">{{ deleteButtonText }}</button>
 					</div>
 				</div>
 			</div>
@@ -64,7 +50,7 @@ export default {
 		return {
 			isConfirmDeleteVisible: false,
 			deleteAmount: "",
-			deletionWarningText: "",
+			deleteWarningText: "",
 			deleteButtonText: ""
 		}
 	},
@@ -74,13 +60,11 @@ export default {
 			this.isConfirmDeleteVisible = true;
 			this.deleteAmount = amount;
 		},
-
 		deleteConfirmed() {
 			this.$store.dispatch("emptyTrash", this.deleteAmount);
 			this.$store.commit("noteDialogIsVisible", false);
 			this.isConfirmDeleteVisible = false;
 		},
-
 		cancelDelete() {
 			this.isConfirmDeleteVisible = false;
 		},
@@ -95,10 +79,10 @@ export default {
 	watch: {
 		deleteAmount() {
 			if (this.deleteAmount === "one") {
-				this.deletionWarningText = "Are you sure you want to delete this note?";
+				this.deleteWarningText = "Are you sure you want to delete this note?";
 				this.deleteButtonText = "Delete";
 			} else {
-				this.deletionWarningText = "Are you sure you want to delete all notes?";
+				this.deleteWarningText = "Are you sure you want to delete all notes?";
 				this.deleteButtonText = "Delete all"
 			}
 		}

@@ -1,11 +1,12 @@
 <template>
 	<BaseComponent :activePage="'home'">
 		<template v-slot:page-label>
-			<span class="logo"><b>Notes</b><b>Mini</b></span>
+			<span class="logo">
+				<b>Nightly</b>
+				<b>Notes</b>
+			</span>
 		</template>
-
 		<template v-slot:action-button></template>
-
 		<template v-slot:notes-unavailable>
 			<span>
 				<NotesIcon />

@@ -3,9 +3,7 @@
 		<template v-slot:page-label>
 			<b>Favourites</b>
 		</template>
-
 		<template v-slot:action-button></template>
-
 		<template v-slot:notes-unavailable>
 			<span class="favourites-info">
 				<HeartIcon />
