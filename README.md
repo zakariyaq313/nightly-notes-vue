@@ -1,39 +1,32 @@
 # **Nightly Notes (Vue)**
 
-A notes app inspired from Google Keep - created with Vue. An alternate version with React [here](https://github.com/zakariyaq313/nightly-notes-react).
+A notes app inspired by Google Keep - created using Vue. There is also an [alternate version](https://github.com/zakariyaq313/nightly-notes-react) using React.
 
-![Screenshot](./src/assets/images/screen.png)
+**Screenshot -**
 
-Made using -
+![PC Screenshot](./src/assets/images/screen.png)
 
-- **Vue 3** - Main framework
-- **Vuex** - State management
-- **Vue Router** - Page routing 
-- **Sass/external stylesheet** - Element styling
+**Mobile screenshots -**
 
-How to run in local server -
-- **Clone** the respository
-- **npm install** - To install project dependencies
-- **npm run serve** - To start the development server
- 
-# **Progression**
+<p float="left">
+	<img src="./src/assets/images/mobile-1.jpg" width="32%" />
+	<img src="./src/assets/images/mobile-2.jpg" width="32%" /> 
+	<img src="./src/assets/images/mobile-3.jpg" width="32%" />
+</p>
 
-Version 1 -
+**Made using -**
 
-![Version 1](./src/assets/images/version-1.png)
+- Vue 3
+- Vuex
+- Vue Router 
+- Sass / SCSS
+- Icon components custom made (using SVG from Material Icons)
 
-Version 2 -
+**Notes -**
 
-![Version 2](./src/assets/images/version-2.png)
+I've always liked the simple and minimalistic design of Google Keep, and wanted to create an application that resembles it. I worked with Vue at my job, but didn't have any personal project made using it. So for my first project with Vue, I decided to create a notes app. It was a great learning experience for me, and I'm satisfied with the result. There is certainly a room for improvements, and I have planned to update the app whenever I get some free time :)
 
-Version 3 -
-
-![Version 3](./src/assets/images/version-3.png)
-
-Version 4 -
-
-![Version 4](./src/assets/images/version-4.png)
-
-Version 5 -
-
-![Version 5](./src/assets/images/version-5.png)
+**How to run in local server -**
+- `Clone` the respository
+- `npm install` - To install project dependencies
+- `npm run serve` - To start the development server

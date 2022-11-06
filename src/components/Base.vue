@@ -11,8 +11,8 @@
 					<span><PlusIcon/>New Note</span>
 					<span></span>
 					<span></span>
-				</button>
-			</slot>
+			</button>
+		</slot>
 	</header>
 
 	<div v-if="notesUnavailable" class="notes-unavailable">

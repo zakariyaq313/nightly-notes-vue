@@ -28,8 +28,7 @@ export default {
 			handler: function() {
 				const currentPage = this.$router.currentRoute.value.name;
 				this.focusedPage = `focus-${currentPage}`;
-			},
-			deep: true
+			}, deep: true
 		}
 	}
 }
