@@ -9,7 +9,7 @@
 		<template v-slot:action-button></template>
 		<template v-slot:notes-unavailable>
 			<span>
-				<NotesIcon />
+				<Notes />
 				<h2 class="clickable" @click="newNote">Anything to add?</h2>
 			</span>
 		</template>
@@ -18,11 +18,11 @@
 
 <script>
 import BaseComponent from "../Base.vue";
-import NotesIcon from '../icons/NotesIcon.vue';
+import Notes from '../icons/Notes.vue';
 
 export default {
 	components: {
-		BaseComponent, NotesIcon
+		BaseComponent, Notes
 	},
 	methods: {
 		newNote() {

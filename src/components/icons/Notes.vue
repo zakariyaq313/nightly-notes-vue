@@ -4,6 +4,6 @@
 
 <script>
 export default {
-	name: "NotesIcon",
+	name: "Notes",
 };
 </script>

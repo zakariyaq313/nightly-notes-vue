@@ -4,6 +4,6 @@
 
 <script>
 export default {
-	name: "HeartIcon",
+	name: "Heart",
 };
 </script>

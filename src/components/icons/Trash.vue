@@ -25,6 +25,6 @@
 
 <script>
 export default {
-	name: "TrashIcon"
+	name: "Trash"
 }
 </script>

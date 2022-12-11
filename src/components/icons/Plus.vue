@@ -6,6 +6,6 @@
 
 <script>
 export default {
-	name: "PlusIcon"
+	name: "Plus"
 }
 </script>

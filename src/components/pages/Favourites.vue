@@ -6,7 +6,7 @@
 		<template v-slot:action-button></template>
 		<template v-slot:notes-unavailable>
 			<span class="favourites-info">
-				<HeartIcon />
+				<HeartColored />
 				<h2>No favourite notes</h2>
 			</span>
 		</template>
@@ -15,12 +15,12 @@
 
 <script>
 import BaseComponent from "../Base.vue";
-import HeartIcon from '../icons/HeartIcon.vue';
+import HeartColored from '../icons/HeartColored.vue';
 
 export default {
 	name: "Favourites",
 	components: {
-		BaseComponent, HeartIcon
+		BaseComponent, HeartColored
 	}
 }
 </script>

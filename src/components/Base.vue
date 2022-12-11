@@ -8,7 +8,7 @@
 			<button	class="create-note-btn comical-shadow-clickable"
 				:disabled="activePage === 'favourites'"
 				@click="showNoteDialog">
-					<span><PlusIcon/>New Note</span>
+					<span><Plus/>New Note</span>
 					<span></span>
 					<span></span>
 			</button>
@@ -53,12 +53,12 @@
 
 <script>
 import NoteDialog from "./NoteDialog.vue";
-import PlusIcon from "./icons/PlusIcon.vue";
+import Plus from "./icons/Plus.vue";
 import Note from "./Note.vue";
 
 export default {
 	name: "Base",
-	components: {NoteDialog, Note, PlusIcon},
+	components: {NoteDialog, Note, Plus},
 	props: {
 		activePage: {
 			type: String,

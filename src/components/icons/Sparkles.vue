@@ -23,6 +23,6 @@
 
 <script>
 export default {
-  name: "SparklesIcon",
+  name: "Sparkles",
 };
 </script>

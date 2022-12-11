@@ -8,7 +8,7 @@
 			<button class="empty-trash comical-shadow-clickable"
 				:disabled="$store.state.trashedNotes.length === 0"
 				@click="confirmDeletion('all')">
-					<span><TrashIcon/>Empty Trash</span>
+					<span><Trash/>Empty Trash</span>
 					<span></span>
 					<span></span>
 			</button>
@@ -16,7 +16,7 @@
 
 		<template v-slot:notes-unavailable>
 			<span class="trash-info">
-				<SparklesIcon />
+				<Sparkles />
 				<h2>Trash is empty</h2>
 			</span>
 		</template>
@@ -37,13 +37,13 @@
 
 <script>
 import BaseComponent from "../Base.vue";
-import SparklesIcon from '../icons/SparklesIcon.vue';
-import TrashIcon from '../icons/TrashIcon.vue';
+import Sparkles from '../icons/Sparkles.vue';
+import Trash from '../icons/Trash.vue';
 
 export default {
 	name: "Trash",
 	components: {
-		BaseComponent, TrashIcon, SparklesIcon
+		BaseComponent, Trash, Sparkles
 	},
 
 	data() {

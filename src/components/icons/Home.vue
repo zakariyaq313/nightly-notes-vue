@@ -19,6 +19,6 @@
 
 <script>
 export default {
-	name: "HomeIcon"
+	name: "Home"
 }
 </script>

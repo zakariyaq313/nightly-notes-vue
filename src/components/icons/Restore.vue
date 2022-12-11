@@ -7,6 +7,6 @@
 
 <script>
 export default {
-	name: "RestoreIcon"
+	name: "Restore"
 }
 </script>

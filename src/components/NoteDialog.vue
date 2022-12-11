@@ -1,16 +1,16 @@
 <template>
 	<!-- 
-		This component is too large and can be broken down into multiple
-		components. Unfortunately, I do not have enough free time at hand
+		This component is too large and can be simplified into smaller
+		components. Unfortunately I do not have enough free time at hand
 		to update this app anymore, hence this will remain the way it is.
 	-->
 	<form :class="['note-dialog', noteDialogClasses]">
 		<div class="note-content">
 			<div class="action-buttons">
-				<button @click.prevent="closeNoteDialog"><ArrowLeftIcon/></button>
+				<button @click.prevent="closeNoteDialog"><ArrowLeft/></button>
 				<button @click.prevent="toggleFavourite" :disabled="trashIsOpen" class="favourite-button">
-					<HeartFilledIcon v-if="$store.state.noteIsFavourite" />
-					<HeartOutlineIcon v-else />
+					<HeartFilled v-if="$store.state.noteIsFavourite" />
+					<HeartOutlined v-else />
 				</button>
 			</div>
 
@@ -20,7 +20,7 @@
 					<img :src="image" :class="imageWidth">
 					<!-- Delete image button -->
 					<button @click.prevent="deleteImage(index)" class="delete-image" :disabled="trashIsOpen">
-						<DeleteIcon />
+						<Delete />
 					</button>
 				</div>
 			</div>
@@ -59,27 +59,27 @@
 				
 		<div class="note-options">
 			<span v-if="!trashIsOpen" @click="toggleFontDropdown" class="font-select-button">
-				Font family	<ArrowDownIcon :style="rotateArrow" />
+				Font family	<ChevronDown :style="rotateArrow" />
 			</span>
 
 			<button v-if="!trashIsOpen" @click.prevent="uploadButtonClicked" title="Image">
-				<ImageIcon />
+				<ImageUpload />
 			</button>
 
 			<button v-if="!trashIsOpen" @click.prevent="togglePalette" title="Background colour">
-				<PaletteIcon />
+				<Palette />
 			</button>
 
 			<button v-if="!trashIsOpen" @click.prevent="trashNote" :disabled="$store.state.isNoteEmpty" title="Delete">
-				<DeleteIcon />
+				<Delete />
 			</button>
 
 			<button v-if="trashIsOpen" @click.prevent="deleteNote" title="Delete forever">
-				<DeleteIcon />
+				<Delete />
 			</button>
 
 			<button v-if="trashIsOpen" @click.prevent="restoreNote" title="Restore">
-				<RestoreIcon />
+				<Restore />
 			</button>
 
 			<ul v-if="fontDropdownVisible" class="font-selection-dropdown">
@@ -119,17 +119,17 @@
 
 <script>
 import { fontStyles, colorsSolid, colorsGradient } from "../store/themeProps";
-import ArrowDownIcon from './icons/ArrowDownIcon.vue';
-import ArrowLeftIcon from './icons/ArrowLeftIcon.vue';
-import DeleteIcon from './icons/DeleteIcon.vue';
-import HeartFilledIcon from './icons/HeartFilledIcon.vue';
-import HeartOutlineIcon from './icons/HeartOutlineIcon.vue';
-import ImageIcon from './icons/ImageIcon.vue';
-import PaletteIcon from './icons/PaletteIcon.vue';
-import RestoreIcon from './icons/RestoreIcon.vue';
+import ChevronDown from './icons/ChevronDown.vue';
+import ArrowLeft from './icons/ArrowLeft.vue';
+import Delete from './icons/Delete.vue';
+import HeartFilled from './icons/HeartFilled.vue';
+import HeartOutlined from './icons/HeartOutlined.vue';
+import ImageUpload from './icons/ImageUpload.vue';
+import Palette from './icons/Palette.vue';
+import Restore from './icons/Restore.vue';
 
 export default {
-  	components: { ArrowLeftIcon, HeartOutlineIcon, HeartFilledIcon, DeleteIcon, ArrowDownIcon, ImageIcon, PaletteIcon, RestoreIcon },
+  	components: { ArrowLeft, HeartOutlined, HeartFilled, Delete, ChevronDown, ImageUpload, Palette, Restore },
 	name: "NoteDialog",
 	props: {
 		activePage: {
