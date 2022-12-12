@@ -25,6 +25,6 @@
 
 <script>
 export default {
-	name: "Trash"
+	name: "TrashCan"
 }
 </script>

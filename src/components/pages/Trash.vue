@@ -8,7 +8,10 @@
 			<button class="empty-trash comical-shadow-clickable"
 				:disabled="$store.state.trashedNotes.length === 0"
 				@click="confirmDeletion('all')">
-					<span><Trash/>Empty Trash</span>
+					<span>
+						<TrashCan />
+						Empty Trash
+					</span>
 					<span></span>
 					<span></span>
 			</button>
@@ -38,14 +41,13 @@
 <script>
 import BaseComponent from "../Base.vue";
 import Sparkles from '../icons/Sparkles.vue';
-import Trash from '../icons/Trash.vue';
+import TrashCan from '../icons/TrashCan.vue';
 
 export default {
 	name: "Trash",
 	components: {
-		BaseComponent, Trash, Sparkles
+		BaseComponent, TrashCan, Sparkles
 	},
-
 	data() {
 		return {
 			isConfirmDeleteVisible: false,
@@ -54,7 +56,6 @@ export default {
 			deleteButtonText: ""
 		}
 	},
-
 	methods: {
 		confirmDeletion(amount) {
 			this.isConfirmDeleteVisible = true;
@@ -69,13 +70,11 @@ export default {
 			this.isConfirmDeleteVisible = false;
 		},
 	},
-
 	computed: {
 		deleteConfirmVisible() {
 			return this.isConfirmDeleteVisible ? "delete-confirm-visible" : "";
 		}
 	},
-
 	watch: {
 		deleteAmount() {
 			if (this.deleteAmount === "one") {

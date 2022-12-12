@@ -2,20 +2,20 @@
 	<nav :class="['navigation-buttons', focusedPage]">
 		<button @click="switchPage('home')" title="Home"><Home/></button>
 		<button @click="switchPage('favourites')" title="Favourites"><HeartOutlined/></button>
-		<button @click="switchPage('trash')" title="Trash"><Trash/></button>
+		<button @click="switchPage('trash')" title="Trash"><TrashCan/></button>
 	</nav>
 </template>
 
 <script>
-import HeartOutlined from './icons/HeartOutlined.vue';
-import Home from './icons/Home.vue';
-import Trash from './icons/Trash.vue';
+import Home from "./icons/Home.vue";
+import HeartOutlined from "./icons/HeartOutlined.vue";
+import TrashCan from "./icons/TrashCan.vue";
 export default {
-	components: { Home, HeartOutlined, Trash },
+	components: { Home, HeartOutlined, TrashCan },
 	name: "Navigation",
 	data() {
 		return {
-			focusedPage: ""
+			focusedPage: "focus-home"
 		}
 	},
 	methods: {
