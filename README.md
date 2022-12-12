@@ -20,7 +20,7 @@ A notes-app inspired by Google Keep - made using Vue. There is also an [alternat
 - Vuex
 - Vue Router 
 - Sass / SCSS
-- Icon components custom made (using icons in SVG format from [Material Icons](https://fonts.google.com/icons?selected=Material+Icons) and converting them into JSX components using [SVG to JSX](https://svg2jsx.com/))
+- Icon components custom made (using icons from [Material Icons](https://fonts.google.com/icons?selected=Material+Icons))
 - **No additional libraries used**
 
 **Notes -**
