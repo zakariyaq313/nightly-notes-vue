@@ -1,6 +1,6 @@
 # **Nightly Notes (Vue)**
 
-A notes-app inspired by Google Keep - made using Vue. There is also an [alternate version](https://github.com/zakariyaq313/nightly-notes-react) using React.
+A notes application, inspired by Google Keep, built with Vue. There is also an [alternate version](https://github.com/zakariyaq313/nightly-notes-react) using React.
 
 **Screenshot -**
 
@@ -20,12 +20,12 @@ A notes-app inspired by Google Keep - made using Vue. There is also an [alternat
 - Vuex
 - Vue Router 
 - Sass / SCSS
-- Icon components custom made (using icons from [Material Icons](https://fonts.google.com/icons?selected=Material+Icons))
+- Icon components custom-made (using icons from [Material Icons](https://fonts.google.com/icons?selected=Material+Icons))
 - **No additional libraries used**
 
 **Notes -**
 
-I always liked the simple and minimalistic design of Google Keep, and long hoped to create an application similar to it. I worked with Vue at my job, but never really got around to creating any personal project using it. So for my first app with Vue, I decided to create this notes-app. It was a great learning experience for me, and I'm satisfied with the result. I do have some improvements planned for the future, if and when I get some free time :)
+I wanted to expand my knowledge and understanding of Vue, so I decided to undertake a personal project using it. I was particularly drawn to the clean and minimalistic design of Google Keep, and thus, chose to create a similar application using Vue. The process of building this project was a great learning experience as it allowed me to gain a deeper understanding of Vue and its capabilities. I am proud of the final product and satisfied with it, but also open to the idea of making further improvements to it in the future, based on user feedback or new features that I may think of.
 
 I have added a little info on the app's design progression [here](./src/README.md).
 
